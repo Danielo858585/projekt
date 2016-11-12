@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Czater v.2</string>
+    <string name="title_activity_main">Czater v2</string>
+    <string name="autor">Czater by Daniel Kolbus</string>
+    <string name="rozpocznij">Rozpocznij jako anonimowy</string>
+    <string name="gpsenabled">GPS ON/OFF</string>
+    <string name="title_activity_czat">Czat</string>
+    <string name="title_activity_czat_list">czatList</string>
+    <string name="title_activity_add_czat">AddCzat</string>
+    <string name="L_user_name">Nazwa użytkownika</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="wpisz_wiadomo">Wpisz wiadomość</string>
+    <string name="btn_accept">Akceptuj</string>
+    <string-array name="czar_example">
+        <item> "Siema"></item>
+        <item> "Czesc"</item>
+        <item> "Teraz cos dluzszego"</item>
+        <item> "Teraz nic</item>
+    </string-array>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="noGPSSignal">Brak możliwości ustalenia</string>
+    <string name="title_activity_maps2">Map</string>
+</resources>
