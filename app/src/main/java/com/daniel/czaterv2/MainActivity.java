@@ -4,16 +4,23 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -52,9 +59,8 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
-        
+        checkPermision();
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         gps_info = (TextView) findViewById(R.id.tv_gpsinfo);
         latitudeTextView = (TextView) findViewById(R.id.tv_latitude);
@@ -64,6 +70,15 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         go_to_map = (Button) findViewById(R.id.btn_map);
         login = (Button) findViewById(R.id.btn_loginRegistry);
         checkGPSPosition = (Button) findViewById(R.id.btn_checkGPSPosition);
+        if(googleApiClient==null){
+            googleApiClient = new GoogleApiClient
+                    .Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +108,8 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             @Override
             public void onClick(View v) {
 
+
+
                 /*
                 Log.d("Jestem w OnClick","Jestem w OnClick");
                 if(ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -106,7 +123,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                             int i1 = r.nextInt(80 - 25) + 65;
                             lat = location.getLatitude();
                             lng = location.getLongitude();
-
                             if((lat != 0) && (lng != 0)){
                                 longitudeTextView.setText(String.valueOf(lng));
                                 latitudeTextView.setText(String.valueOf(lat));
@@ -119,35 +135,17 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                             }
                         }
                     };
-
                 }
                 else{
                     Log.d("1","Nie działa metoda po kliknięciu");
                 }
-
-                //gps = new GPSManager(getApplicationContext());
-*/
+                gps = new GPSManager(getApplicationContext());
+                */
             }
         });
         chceckGPS();
     }
 
-    /*GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(this)
-            .enableAutoManage(this /* FragmentActivity */
-    /*                this /* OnConnectionFailedListener */
-    /*        .addApi(Drive.API)
-            .addScope(Drive.SCOPE_FILE)
-            .build();
-    */
-
-    /*if (mGoogleApiClient == null) {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
-*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent intent) {
@@ -155,15 +153,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         if (resultCode == RESULT_OK) {
             // sprawdzamy czy przyszło odpowiednie żądanie
             if (requestCode == 1) {
-                /*
-                Bundle bundle = intent.getExtras();
-                name = bundle.getString("name");
-                pass = bundle.getString("pass");
-                userString = bundle.getString("USERjson");
-                Log.d("Name", name);
-                Log.d("Password", pass);
-                user = new Gson().fromJson(userString, User.class);
-                */
                 user = MySingleton.getInstance().getUser();
                 Log.d("Name", user.getName());
                 //Log.d("Password", pass);
@@ -243,6 +232,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         startActivityForResult(intent, LOGIN);
     }
 
+    // ---------------------- GOOGLE CLIENT API  ---------------------------
     @Override
     public void onConnected(@Nullable Bundle connectionHint) {
        /* Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
@@ -264,6 +254,100 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
 
     }
 
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
 
+// ---------------------- END GOOGLE CLIENT API  ---------------------------
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 777: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast tost = Toast.makeText(this, "Uprawnienia FINE przyznane", Toast.LENGTH_SHORT);
+                    tost.show();
+
+                } else {
+
+                    Toast tost = Toast.makeText(this, "Uprawnienia FINE nieprzyznane", Toast.LENGTH_SHORT);
+                    tost.show();
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            case 666: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast tost = Toast.makeText(this, "Uprawnienia COARSE przyznane", Toast.LENGTH_SHORT);
+                    tost.show();
+
+                } else {
+
+                    Toast tost = Toast.makeText(this, "Uprawnienia COARSE nieprzyznane", Toast.LENGTH_SHORT);
+                    tost.show();
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        googleApiClient.connect();
+        super.onStart();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.start(googleApiClient, getIndexApiAction());
+    }
+
+    @Override
+    protected void onStop() {
+        googleApiClient.disconnect();
+        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(googleApiClient, getIndexApiAction());
+    }
+
+
+    public void checkPermision(){
+        int checkPermissionLocalizationFine = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int checkPermissionLocalizationCoarse = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (checkPermissionLocalizationFine != 0) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 777);
+            }
+        }
+        if (checkPermissionLocalizationCoarse != 0) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 666);
+            }
+        }
+    }
 
 }
