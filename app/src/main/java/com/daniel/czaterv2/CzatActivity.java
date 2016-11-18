@@ -27,13 +27,9 @@ public class CzatActivity extends Activity {
     private EditText message;
     private Button send_message;
     private ArrayAdapter<String> adapter;
-
     private static final String CLASS_TAG = "CZAT_ACTIVITY";
     private Retrofit retrofit;
     WebService webService;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +78,6 @@ public class CzatActivity extends Activity {
                 }
             }
         });
-
 
         /*
         ------------- WERSJA TESTOWA LOKALNA ---------------------
@@ -135,32 +130,5 @@ public class CzatActivity extends Activity {
         }
     }
     ----------------- KONIEC ON CLICK Z BUTTER KNIFA --------------------
-    */
-
-
-
-    /*
-    ------------------  DO USUNIĘCIA  -------------------
-    @OnClick (R.id.btn_czat_send)
-    public void submit(View view){
-        try{
-            webService.getData(new Callback<MessageBody>() {
-                @Override
-                public void onResponse(Call<MessageBody> call, Response<MessageBody> response) {
-                    Log.d(CLASS_TAG, call.toString());
-                }
-
-                @Override
-                public void onFailure(Call<MessageBody> call, Throwable t) {
-                    Log.d(CLASS_TAG, t.getLocalizedMessage());
-                }
-            });
-        }
-        catch (Exception e){
-            Log.d(CLASS_TAG, e.toString());
-        }
-
-    }
-    ------------------  DO USUNIĘCIA KONIEC  -------------------
     */
 }

@@ -16,43 +16,66 @@
     <TextView
         android:text="Nazwa czatu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/tv_newCzatName"
         android:textAlignment="center"
-        android:layout_marginBottom="30dp"
-        android:textSize="15dp"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="24sp"
+        android:layout_weight="1" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/et_czatName"
-        android:layout_marginBottom="30dp" />
+        android:layout_above="@+id/et_maxUsers"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_weight="1" />
 
     <TextView
-        android:text="Maksymalna liczba uczestników"
+        android:text="Wprowadź maksymalną liczbę uczestników (max 10)"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/tv_maxUsers"
         android:textAlignment="center"
-        android:layout_marginBottom="30dp"
-        android:textSize="15dp"/>
+        android:layout_below="@+id/et_czatName"
+        android:layout_alignRight="@+id/et_czatName"
+        android:layout_alignEnd="@+id/et_czatName"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="24sp"
+        android:layout_weight="1" />
 
     <EditText
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/et_maxUsers"
         android:layout_width="match_parent"
         android:textAlignment="textStart"
+        android:singleLine="false"
         android:elegantTextHeight="false"
-        android:layout_marginBottom="30dp" />
+        android:layout_weight="1" />
 
     <Button
         android:text="Określ położenie czatu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/btn_defineCzatCenter"
-        android:layout_marginBottom="30dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1" />
+
+    <Button
+        android:text="Zaakceptuj wybór"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/btn_acceptNewCzat"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1" />
 </LinearLayout>

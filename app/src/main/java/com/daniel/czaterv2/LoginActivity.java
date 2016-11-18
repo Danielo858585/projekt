@@ -77,16 +77,6 @@ public class LoginActivity extends Activity {
                     passString = pass.getText().toString();
                     user = new User(nameString, passString);
                     MySingleton.getInstance().setUser(user);
-
-                    /*
-                    String json = new Gson().toJson(user);
-                    bundle = new Bundle();
-                    bundle.putString("name", nameString);
-                    bundle.putString("pass", passString);
-                    bundle.putString("USERjson",json);
-                    intentParent.putExtras(bundle);
-                    */
-
                     setResult(RESULT_OK, intentParent);
                     finish();
                     Log.d("A","Jestem w IFIE");

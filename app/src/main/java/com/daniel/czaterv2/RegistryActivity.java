@@ -7,28 +7,36 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class RegistryActivity extends Activity {
-    @BindView(R.id.tv_registryUserName)TextView tv_registryUserName;
-    @BindView(R.id.tv_registryUserEmail)TextView tv_registryUserEmail;
-    @BindView(R.id.tv_registryUserPass)TextView tv_registryUserPass;
-    @BindView(R.id.et_registryUserName)EditText et_registryUserName;
-    @BindView(R.id.et_registryUserEmail)EditText et_registryUserEmail;
-    @BindView(R.id.et_registryUserPass) EditText et_registryUserPass;
-    @BindView(R.id.btn_registryRegistry) Button btn_registryAccept;
+
+
+    TextView tv_registryUserName;
+    TextView tv_registryUserEmail;
+    TextView tv_registryUserPass;
+    EditText et_registryUserName;
+    EditText et_registryUserEmail;
+    EditText et_registryUserPass;
+    Button btn_registryAccept;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registry);
-        ButterKnife.bind(this);
+        tv_registryUserName = (TextView) findViewById(R.id.tv_registryUserName);
+        tv_registryUserEmail = (TextView) findViewById(R.id.tv_registryUserEmail);
+        tv_registryUserPass = (TextView) findViewById(R.id.tv_registryUserPass);
+        et_registryUserName = (EditText) findViewById(R.id.et_registryUserName);
+        et_registryUserEmail = (EditText) findViewById(R.id.et_registryUserEmail);
+        et_registryUserPass = (EditText) findViewById(R.id.et_registryUserPass);
+        btn_registryAccept = (Button) findViewById(R.id.btn_registryRegistry);
+
+        btn_registryAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
-    @OnClick(R.id.btn_registryRegistry)
-    public void registry (View view){
 
-    }
 }
