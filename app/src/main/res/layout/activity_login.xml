@@ -9,17 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.daniel.czaterv2.LoginActivity">
-
-    <Button
-        android:text="zarejestruj"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="54dp"
-        android:id="@+id/btn_goToRegistry"
-        />
+    tools:context="com.daniel.czaterv2.LoginActivity"
+    android:background="@android:color/background_light">
 
     <EditText
         android:layout_width="wrap_content"
@@ -59,6 +50,18 @@
         android:layout_alignParentEnd="true"
         android:elevation="0dp"
         android:layout_marginTop="30dp"
-        android:clickable="false" />
+        android:clickable="false"
+        android:background="@color/buttonColor"/>
+
+    <Button
+        android:text="zarejestruj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="54dp"
+        android:id="@+id/btn_goToRegistry"
+        android:background="@color/buttonColor"
+        android:layout_marginTop="40dp" />
 
 </LinearLayout>

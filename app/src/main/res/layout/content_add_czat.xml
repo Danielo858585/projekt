@@ -11,7 +11,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.daniel.czaterv2.AddCzatActivity"
     tools:showIn="@layout/activity_add_czat"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/good">
 
     <TextView
         android:text="Nazwa czatu"
@@ -54,5 +55,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_defineCzatCenter"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/mybutton"/>
 </LinearLayout>

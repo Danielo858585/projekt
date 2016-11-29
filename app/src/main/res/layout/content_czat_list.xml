@@ -9,7 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.daniel.czaterv2.CzatListActivity">
+    tools:context="com.daniel.czaterv2.CzatListActivity"
+    android:background="@android:color/background_light">
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,15 +62,6 @@
     </RelativeLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_accept"
-        android:id="@+id/btn_accept_czat_list"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,7 +69,8 @@
         android:id="@+id/btn_sprawdz"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@color/buttonColor"/>
 
     <Button
         android:text="Dodaj czat"
@@ -85,5 +78,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/btn_addCzat" />
+        android:id="@+id/btn_addCzat"
+        android:background="@color/buttonColor"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_accept"
+        android:id="@+id/btn_accept_czat_list"
+        android:background="@color/buttonColor"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

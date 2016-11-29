@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/a"
+    android:background="@android:color/background_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.daniel.czaterv2.MainActivity"
     tools:showIn="@layout/activity_main">
@@ -33,7 +33,8 @@
         android:id="@+id/btn_main_gps_enabled"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@color/buttonColor" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,32 +43,8 @@
         android:id="@+id/tv_gpsinfo"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/rozpocznij"
-        android:id="@+id/btn_main_start"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/btn_main_gps_enabled"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="Zaloguj/Zarejestruj"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_main_start"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="48dp"
-        android:id="@+id/btn_loginRegistry"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -80,7 +57,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp" />
+        android:layout_marginEnd="10dp"
+        android:background="@color/buttonColor"/>
 
     <Button
         android:text="sprawdź położenie"
@@ -88,7 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn_map"
         android:layout_centerHorizontal="true"
-        android:id="@+id/btn_checkGPSPosition" />
+        android:id="@+id/btn_checkGPSPosition"
+        android:background="@color/buttonColor"/>
 
     <TextView
         android:text="Longitude"
@@ -108,5 +87,29 @@
         android:layout_above="@+id/btn_map"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rozpocznij"
+        android:id="@+id/btn_main_start"
+        android:background="@color/buttonColor"
+        android:layout_below="@+id/btn_main_gps_enabled"
+        android:layout_marginTop="44dp"
+        android:layout_toStartOf="@+id/tv_gpsinfo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Zaloguj/Zarejestruj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_loginRegistry"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/btn_main_start"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/buttonColor" />
 
 </RelativeLayout>

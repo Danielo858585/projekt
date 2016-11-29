@@ -13,9 +13,6 @@ import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -59,19 +56,19 @@ public class LoginActivity extends Activity {
                             .client(client)
                             .build();
 
-                    WebService webService = retrofit.create(WebService.class);
-                    Call<Void> call = webService.login(new User("viader", 1, "password", "viader@gmail.com"));
-                    call.enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-
-                        }
-                    });
+//                    WebService webService = retrofit.create(WebService.class);
+//                    Call<Void> call = webService.login(new User("viader", 1, "password", "viader@gmail.com"));
+//                    call.enqueue(new Callback<Void>() {
+//                        @Override
+//                        public void onResponse(Call<Void> call, Response<Void> response) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Void> call, Throwable t) {
+//
+//                        }
+//                    });
 
                     nameString = login.getText().toString();
                     passString = pass.getText().toString();

@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:background="@android:color/background_light">
 
     <TextView
         android:id="@+id/tv_registryUserName"
@@ -63,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="Zarejestruj"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@color/buttonColor"/>
 
 </LinearLayout>

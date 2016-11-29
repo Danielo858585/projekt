@@ -5,31 +5,32 @@ package com.daniel.czaterv2;
  */
 public class User {
 
+    private int id;
+    private int anonymusID;
+    private String token;
     private String name;
     private String email;
     private String pass;
-    private int id;
 
-    private boolean log = false;
-    private boolean moderator = false;
-    private boolean boss = false;
 
 
     public User(){}
 
-    public User(String s){}
+
 
     public User(String name, String pass){
         this.name = name;
         this.pass = pass;
-        log = false;
     }
 
-    public User(String name, int id, String pass, String email){
+    public User(String name, String pass, String email){
         this.name = name;
-        this.id = id;
         this.pass = pass;
         this.email = email;
+    }
+
+    public User(String name) {
+        this.name = name;
     }
 
     public String getName(){
@@ -52,11 +53,27 @@ public class User {
         this.email = email;
     }
 
-    public void setLogOn(){
-        log = true;
+    public String getToken() {
+        return token;
     }
 
-    public void setLogOff(){
-        log = false;
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public int getAnonymusID() {
+        return anonymusID;
+    }
+
+    public void setAnonymusID(int anonymusID) {
+        this.anonymusID = anonymusID;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPass() {
+        return pass;
     }
 }
