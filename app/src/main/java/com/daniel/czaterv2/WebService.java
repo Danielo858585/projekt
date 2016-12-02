@@ -7,8 +7,8 @@ import retrofit2.http.POST;
 
 public interface WebService {
 
-    @POST("/register")
-    Call<UserRegistry> createUser(@Body UserRegistry userRegistry);
+    @POST("/puszek-1.0.0-SNAPSHOT/register")
+    Call<Void> createUser(@Body UserRegistry userRegistry);
 
     @POST("/login")
     Call<User> login(@Field("name") String name,
@@ -17,8 +17,7 @@ public interface WebService {
                              String password
     );
 
-    @POST("/loginAnonymous")
-    Call<User> loginAnonymous(@Field("uid") String macAdress
-    );
+    @POST("/puszek-1.0.0-SNAPSHOT/anonymousLogin")
+    Call<UserAnonymous> userAnonymous (@Body AnonymousClass anonymousClass);
 
 }

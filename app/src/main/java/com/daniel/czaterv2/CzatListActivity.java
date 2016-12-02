@@ -59,7 +59,7 @@ public class CzatListActivity extends Activity {
             et_user_name.setText(randomString(10));         // ustawienie przy pomocy funkcji randomString losowej nazwy uzytkownika
         }
         else{
-            et_user_name.setText(MySingleton.getInstance().getUser().getName());
+            et_user_name.setText(MySingleton.getInstance().getUser().getLogin());
         }
 
 

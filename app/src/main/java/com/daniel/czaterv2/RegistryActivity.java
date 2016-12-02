@@ -46,12 +46,12 @@ public class RegistryActivity extends Activity {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(30, TimeUnit.SECONDS)
-                .connectTimeout(30,TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10,TimeUnit.SECONDS)
                 .addInterceptor(logging)
                 .build();
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/puszek-1.0.0-SNAPSHOT/")
+                .baseUrl("http://192.168.0.2:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -63,25 +63,25 @@ public class RegistryActivity extends Activity {
                 String userNameString = et_registryUserName.getText().toString();
                 String userNamePass = et_registryUserPass.getText().toString();
                 String userNameEmail = et_registryUserEmail.getText().toString();
-                user = new UserRegistry();
+                user = new UserRegistry(userNameString,userNameEmail,userNamePass);
 
                 try{
-                    Call<UserRegistry> createUser = webService.createUser(user);
+                    Call<Void> createUser = webService.createUser(user);
                     Log.d("MainActivity","TRY");
-                    createUser.enqueue(new Callback<UserRegistry>() {
+                    createUser.enqueue(new Callback<Void>() {
                         @Override
-                        public void onResponse(Call<UserRegistry> call, Response<UserRegistry> response) {
-                            Log.d("MainActivity","ON RESPONSE");
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            Log.d("RegistryActivity","ON RESPONSE");
                         }
 
                         @Override
-                        public void onFailure(Call<UserRegistry> call, Throwable t) {
-                            Log.d("MainActivity","ON FAILURE");
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Log.d("RegistryActivity","ON FAILURE");
                         }
                     });
                 }
                 catch (Exception e){
-                    Log.d("MainActivity", e.toString());
+                    Log.d("RegistryActivity", e.toString());
                 }
             }
         });

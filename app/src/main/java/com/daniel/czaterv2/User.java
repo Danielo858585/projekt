@@ -5,48 +5,38 @@ package com.daniel.czaterv2;
  */
 public class User {
 
-    private int id;
-    private int anonymusID;
     private String token;
-    private String name;
+    private String login;
     private String email;
-    private String pass;
-
-
+    private String password;
 
     public User(){}
 
-
-
-    public User(String name, String pass){
-        this.name = name;
-        this.pass = pass;
+    public User(String login, String password){
+        this.login = login;
+        this.password = password;
     }
 
-    public User(String name, String pass, String email){
-        this.name = name;
-        this.pass = pass;
+    public User(String login, String password, String email){
+        this.login = login;
+        this.password = password;
         this.email = email;
     }
 
-    public User(String name) {
-        this.name = name;
+    public User(String login) {
+        this.login = login;
     }
 
-    public String getName(){
-        return this.name;
+    ///////////////////////////////////////////////////////////////////////
+
+    public String getLogin(){
+        return this.login;
     }
 
-    public int getId(){
-        return this.id;
-    }
+    public void setLogin (String login){ this.login = login;    }
 
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public void setPass(String pass){
-        this.pass = pass;
+    public void setPassword(String password){
+        this.password = password;
     }
 
     public void setEmail(String email){
@@ -61,19 +51,11 @@ public class User {
         this.token = token;
     }
 
-    public int getAnonymusID() {
-        return anonymusID;
-    }
-
-    public void setAnonymusID(int anonymusID) {
-        this.anonymusID = anonymusID;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public String getPass() {
-        return pass;
+    public String getPassword() {
+        return password;
     }
 }

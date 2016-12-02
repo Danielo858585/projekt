@@ -5,26 +5,26 @@ package com.daniel.czaterv2;
  */
 public class UserRegistry {
 
-    private String name;
+    private String login;
     private String email;
-    private String pass;
+    private String password;
 
-    public UserRegistry(){}
-
-    public UserRegistry(String name) {
-        this.name = name;
+    public UserRegistry(String login, String email, String password) {
+        this.login = login;
+        this.email = email;
+        this.password = password;
     }
 
     public String getName(){
-        return this.name;
+        return this.login;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setName(String login){
+        this.login = login;
     }
 
-    public void setPass(String pass){
-        this.pass = pass;
+    public void setPass(String password){
+        this.password = password;
     }
 
     public void setEmail(String email){
@@ -36,6 +36,6 @@ public class UserRegistry {
     }
 
     public String getPass() {
-        return pass;
+        return password;
     }
 }

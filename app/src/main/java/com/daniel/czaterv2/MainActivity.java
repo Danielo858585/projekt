@@ -1,6 +1,7 @@
 package com.daniel.czaterv2;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -8,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,6 +37,16 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -78,6 +91,70 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         go_to_map = (Button) findViewById(R.id.btn_map);
         login = (Button) findViewById(R.id.btn_loginRegistry);
         checkGPSPosition = (Button) findViewById(R.id.btn_checkGPSPosition);
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10,TimeUnit.SECONDS)
+                .addInterceptor(logging)
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.2:8080/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+        WebService webService = retrofit.create(WebService.class);
+
+       // POBRANIE ADRESU MAC URZĄDZENIA
+        WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = manager.getConnectionInfo();
+        String address = info.getMacAddress();
+        AnonymousClass anonymousClass;
+
+
+        try{
+            final Call <UserAnonymous> userAnonymous = webService.userAnonymous(new AnonymousClass(address)) ;
+            Log.d("MainActivity","TRY");
+            userAnonymous.enqueue(new Callback<UserAnonymous>() {
+                @Override
+                public void onResponse(Call<UserAnonymous> call, Response<UserAnonymous> response) {
+                    Log.d("MainActivity","ON RESPONSE");
+                    Log.d("MainActivityResponse",response.toString());
+                    
+                }
+
+                @Override
+                public void onFailure(Call<UserAnonymous> call, Throwable t) {
+                    Log.d("MainActivity","ON FAILURE");
+                    Log.d("ON FAILURE",call.toString());
+                    Log.d("ON FAILURE",t.toString());
+                }
+            });
+
+
+
+//            {
+//                @Override
+//                public void onResponse(Call<AnonymousClass> call, Response<AnonymousClass> response) {
+//
+//                    Log.d("MainActivity","ON RESPONSE");
+//                    Log.d("MainActivityResponse",response.toString());
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<AnonymousClass> call, Throwable t) {
+//                    Log.d("MainActivity","ON FAILURE");
+//                    Log.d("ON FAILURE",call.toString());
+//                    Log.d("ON FAILURE",t.toString());
+//                }
+//            });
+        }
+        catch (Exception e){
+            Log.d("MainActivity", e.toString());
+        }
+
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient
                     .Builder(this)
@@ -131,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             if (requestCode == LOGIN) {
                 user = MySingleton.getInstance().getUser();
             } else {
-                Log.d("Name", user.getName());
+                Log.d("Name", user.getLogin());
             }
         } else {
             Log.d("Dupa", "Nie weszło w IFA w Main");
