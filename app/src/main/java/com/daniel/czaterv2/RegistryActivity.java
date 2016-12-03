@@ -51,7 +51,7 @@ public class RegistryActivity extends Activity {
                 .addInterceptor(logging)
                 .build();
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://192.168.43.177:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

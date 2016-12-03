@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 public class CzatListActivity extends Activity {
 
@@ -23,6 +27,10 @@ public class CzatListActivity extends Activity {
     private Button sprawdz;
     private Button addCzat;
     private User user;
+    private CzatProperties czat1;
+    private CzatProperties czat2;
+    private CzatProperties czat3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,31 @@ public class CzatListActivity extends Activity {
         czat_list_accept = (Button) findViewById(R.id.btn_accept_czat_list);
         sprawdz = (Button) findViewById(R.id.btn_sprawdz);
         addCzat = (Button) findViewById(R.id.btn_addCzat);
+        czat1 = new CzatProperties();
+        czat1.setName("Czat 1");
+        czat1.setRange(5000);
+        czat1.setPosition(new LatLng(22.000,56.000));
+        czat1.setMaxUsers(10);
+
+        czat2 = new CzatProperties();
+        czat2.setName("Czat 2");
+        czat2.setRange(10000);
+        czat2.setPosition(new LatLng(22.100,56.200));
+        czat2.setMaxUsers(10);
+
+        czat3 = new CzatProperties();
+        czat3.setName("Czat 3");
+        czat3.setRange(15000);
+        czat3.setPosition(new LatLng(22.200,56.100));
+        czat3.setMaxUsers(10);
+
+        ArrayList<String> listItem = new ArrayList<String>();
+        listItem.add(czat1.getName());
+        listItem.add(czat2.getName());
+        listItem.add(czat3.getName());
+
+
+        czat_list.setAdapter(new ArrayAdapter<String>(this,R.layout.my_simple_list_view,listItem));
 
         czat_list_accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,11 +88,11 @@ public class CzatListActivity extends Activity {
             }
         });
 
-        if(MySingleton.isNull()){
+        if(App.getInstance().getUser()==null){
             et_user_name.setText(randomString(10));         // ustawienie przy pomocy funkcji randomString losowej nazwy uzytkownika
         }
         else{
-            et_user_name.setText(MySingleton.getInstance().getUser().getLogin());
+            et_user_name.setText(App.getInstance().getUser().getLogin());
         }
 
 

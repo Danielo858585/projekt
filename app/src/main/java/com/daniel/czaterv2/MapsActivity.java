@@ -35,6 +35,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CzatProperties czatProperties;
     private JSONObject jsonObject;
     private int czatRadius = 0;
+    private CzatProperties czat1;
+    private CzatProperties czat2;
+    private CzatProperties czat3;
 
 
     @Override
@@ -56,7 +59,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             czatRadius = 2000;
         }
 
+        czat1 = new CzatProperties();
+        czat1.setName("Czat 1");
+        czat1.setRange(5000);
+        czat1.setPosition(new LatLng(22.000,56.000));
+        czat1.setMaxUsers(10);
 
+        czat2 = new CzatProperties();
+        czat2.setName("Czat 2");
+        czat2.setRange(10000);
+        czat2.setPosition(new LatLng(22.100,56.200));
+        czat2.setMaxUsers(10);
+
+        czat3 = new CzatProperties();
+        czat3.setName("Czat 3");
+        czat3.setRange(15000);
+        czat3.setPosition(new LatLng(22.200,56.100));
+        czat3.setMaxUsers(10);
     }
 
     @Override
@@ -64,22 +83,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng pozycja2 = new LatLng(51.236658, 22.548534);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pozycja2, 10));
-//        gpsManager = new GPSManager(checkPermissionLocalizationFine, checkPermissionLocalizationCoarse);
-//        //gpsManager.checkPermissions();
-//        lat = gpsManager.getLatitude();
-//        lon = gpsManager.getLongitude();
-//        LatLng pozycja = new LatLng(lat, lon);
-//
-//        if (pozycja != null) {
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pozycja, 5));
-//            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-//        }
-// else {
-//            pozycja = new LatLng(51.236658, 22.548534);
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pozycja, 5));
-//            //mMap.moveCamera(CameraUpdateFactory.newLatLng(pozycja));
-//            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-//        }
+        Marker marker1 = mMap.addMarker(new MarkerOptions()
+                .position(czat1.getPosition())
+                .title("Tutaj będzie centrum czatu"));
+        Circle circle1 = mMap.addCircle(new CircleOptions()
+                .center(czat1.getPosition())
+                .radius(czatRadius)
+                .strokeColor(Color.RED)
+                .strokeWidth(3));
+        Marker marker2 = mMap.addMarker(new MarkerOptions()
+                .position(czat2.getPosition())
+                .title("Tutaj będzie centrum czatu"));
+        Circle circle2 = mMap.addCircle(new CircleOptions()
+                .center(czat2.getPosition())
+                .radius(czatRadius)
+                .strokeColor(Color.RED)
+                .strokeWidth(3));
+        Marker marker3 = mMap.addMarker(new MarkerOptions()
+                .position(czat3.getPosition())
+                .title("Tutaj będzie centrum czatu"));
+        Circle circle3 = mMap.addCircle(new CircleOptions()
+                .center(czat3.getPosition())
+                .radius(czatRadius)
+                .strokeColor(Color.RED)
+                .strokeWidth(3));
+
+
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -100,12 +129,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-
-//    @Override
-//    public void onLocationChanged(Location location) {
-//
-//    }
-
     //------------------- KONIEC OnMapReady ----------------------------------
 }
 

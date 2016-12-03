@@ -7,10 +7,15 @@ public class User {
 
     private String token;
     private String login;
+    private String name;
     private String email;
     private String password;
 
     public User(){}
+
+    public User(UserAnonymous userAnonymous) {
+        login = userAnonymous.getName();
+    }
 
     public User(String login, String password){
         this.login = login;

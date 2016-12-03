@@ -73,7 +73,7 @@ public class LoginActivity extends Activity {
                     nameString = login.getText().toString();
                     passString = pass.getText().toString();
                     user = new User(nameString, passString);
-                    MySingleton.getInstance().setUser(user);
+                    App.getInstance().setUser(user);
                     setResult(RESULT_OK, intentParent);
                     finish();
                     Log.d("A","Jestem w IFIE");

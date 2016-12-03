@@ -1,0 +1,33 @@
+package com.daniel.czaterv2;
+
+import android.app.Application;
+import android.content.Context;
+
+public class App extends Application {
+
+    private static App instance;
+
+    private User user;
+
+    public static App getInstance() {
+        return instance;
+    }
+
+    public static Context getContext() {
+        return instance;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public void onCreate() {
+        instance = this;
+        super.onCreate();
+    }
+}

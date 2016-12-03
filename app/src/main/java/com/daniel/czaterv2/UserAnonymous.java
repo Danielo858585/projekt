@@ -4,7 +4,7 @@ package com.daniel.czaterv2;
  * Created by Daniel on 02.12.2016.
  */
 
-public class UserAnonymous {
+public class UserAnonymous extends User{
     public String name;
     public String token;
 

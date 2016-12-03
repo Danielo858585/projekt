@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private Button checkGPSPosition;
     private LocationManager locationManager;
     private User user;
+    private UserAnonymous userAnonymous;
     private String name;
     private String pass;
     private String userString;
@@ -88,15 +89,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         longitudeTextView = (TextView) findViewById(R.id.tv_longitude);
         start = (Button) findViewById(R.id.btn_main_start);
         gps_on = (Button) findViewById(R.id.btn_main_gps_enabled);
-        go_to_map = (Button) findViewById(R.id.btn_map);
+
         login = (Button) findViewById(R.id.btn_loginRegistry);
-        checkGPSPosition = (Button) findViewById(R.id.btn_checkGPSPosition);
+//        checkGPSPosition = (Button) findViewById(R.id.btn_checkGPSPosition);
+//        go_to_map = (Button) findViewById(R.id.btn_map);
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10,TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .addInterceptor(logging)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
@@ -106,52 +108,34 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .build();
         WebService webService = retrofit.create(WebService.class);
 
-       // POBRANIE ADRESU MAC URZĄDZENIA
+        // POBRANIE ADRESU MAC URZĄDZENIA
         WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         String address = info.getMacAddress();
         AnonymousClass anonymousClass;
 
 
-        try{
-            final Call <UserAnonymous> userAnonymous = webService.userAnonymous(new AnonymousClass(address)) ;
-            Log.d("MainActivity","TRY");
+        try {
+            final Call<UserAnonymous> userAnonymous = webService.userAnonymous(new AnonymousClass(address));
+            Log.d("MainActivity", "TRY");
             userAnonymous.enqueue(new Callback<UserAnonymous>() {
                 @Override
                 public void onResponse(Call<UserAnonymous> call, Response<UserAnonymous> response) {
-                    Log.d("MainActivity","ON RESPONSE");
-                    Log.d("MainActivityResponse",response.toString());
-                    
+                    Log.d("MainActivity", "ON RESPONSE");
+                    Log.d("MainActivityResponse", response.toString());
+
+                    UserAnonymous userAnonymous1 = response.body();
                 }
 
                 @Override
                 public void onFailure(Call<UserAnonymous> call, Throwable t) {
-                    Log.d("MainActivity","ON FAILURE");
-                    Log.d("ON FAILURE",call.toString());
-                    Log.d("ON FAILURE",t.toString());
+                    Log.d("MainActivity", "ON FAILURE");
+                    Log.d("ON FAILURE", call.toString());
+                    Log.d("ON FAILURE", t.toString());
                 }
             });
 
-
-
-//            {
-//                @Override
-//                public void onResponse(Call<AnonymousClass> call, Response<AnonymousClass> response) {
-//
-//                    Log.d("MainActivity","ON RESPONSE");
-//                    Log.d("MainActivityResponse",response.toString());
-//
-//                }
-//
-//                @Override
-//                public void onFailure(Call<AnonymousClass> call, Throwable t) {
-//                    Log.d("MainActivity","ON FAILURE");
-//                    Log.d("ON FAILURE",call.toString());
-//                    Log.d("ON FAILURE",t.toString());
-//                }
-//            });
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.d("MainActivity", e.toString());
         }
 
@@ -178,25 +162,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 gps_enable();
             }
         });
-        go_to_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapy();
-            }
-        });
+//        go_to_map.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mapy();
+//            }
+//        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
             }
         });
-        checkGPSPosition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
+//        checkGPSPosition.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//            }
+//        });
 
     }
 
@@ -206,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (resultCode == RESULT_OK) {
             // sprawdzamy czy przyszło odpowiednie żądanie
             if (requestCode == LOGIN) {
-                user = MySingleton.getInstance().getUser();
+                user = App.getInstance().getUser();
             } else {
                 Log.d("Name", user.getLogin());
             }
@@ -308,14 +292,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        Log.d("GoogleApiClient","Metoda onConnected");
+        Log.d("GoogleApiClient", "Metoda onConnected");
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 googleApiClient);
         if (mLastLocation != null) {
             latitudeTextView.setText(String.valueOf(mLastLocation.getLatitude()));
             longitudeTextView.setText(String.valueOf(mLastLocation.getLongitude()));
-        }
-        else{
+        } else {
             Log.d("Else w OnConnected", "Ostatnia znana jest nie znana. ");
         }
 

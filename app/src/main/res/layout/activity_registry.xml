@@ -4,67 +4,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:baselineAligned="false"
     android:background="@android:color/background_light">
 
     <TextView
         android:id="@+id/tv_registryUserName"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:text="Podaj nazwę"
-        android:textSize="24sp"
-        android:layout_weight="1"
+        android:textSize="18sp"
+
         android:gravity="center_vertical|center_horizontal" />
 
     <EditText
         android:id="@+id/et_registryUserName"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:inputType=""
-        android:layout_weight="1" />
-
+        />
     <TextView
         android:id="@+id/tv_registryUserEmail"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:text="Podaj adres email"
-        android:textSize="24sp"
-        android:layout_weight="1"
+        android:textSize="18sp"
+
         android:gravity="center_vertical|center_horizontal" />
 
     <EditText
         android:id="@+id/et_registryUserEmail"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:inputType=""
-        android:layout_weight="1" />
+        />
 
     <TextView
         android:id="@+id/tv_registryUserPass"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:text="Wprowadź hasło"
-        android:textSize="24sp"
-        android:layout_weight="1"
+        android:textSize="18sp"
+
         android:gravity="center_vertical|center_horizontal" />
 
     <EditText
         android:id="@+id/et_registryUserPass"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:inputType=""
-        android:layout_weight="1" />
+        />
 
     <Button
         android:id="@+id/btn_registryRegistry"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:text="Zarejestruj"
-        android:layout_weight="1"
+
         android:background="@color/buttonColor"/>
 
 </LinearLayout>
