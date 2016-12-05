@@ -25,17 +25,6 @@
         android:layout_alignParentStart="true" />
     -->
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/gpsenabled"
-        android:id="@+id/btn_main_gps_enabled"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/buttonColor" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,30 +49,6 @@
         <!--android:layout_marginEnd="10dp"-->
         <!--android:background="@color/buttonColor"/>-->
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/rozpocznij"
-        android:id="@+id/btn_main_start"
-        android:background="@color/buttonColor"
-        android:layout_below="@+id/btn_main_gps_enabled"
-        android:layout_marginTop="44dp"
-        android:layout_toStartOf="@+id/tv_gpsinfo"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="Zaloguj/Zarejestruj"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_loginRegistry"
-        android:layout_marginTop="46dp"
-        android:layout_below="@+id/btn_main_start"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/buttonColor" />
-
     <TextView
         android:text="Longitude"
         android:layout_width="match_parent"
@@ -100,6 +65,51 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_latitude"
         android:layout_above="@+id/tv_longitude"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Zarejestruj"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/btn_registry"
+        android:layout_marginTop="12dp"
+        android:background="@color/buttonColor"
+        android:layout_below="@+id/btn_login"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="@string/gpsenabled"
+        android:id="@+id/btn_main_gps_enabled"
+        android:background="@color/buttonColor"
+        android:layout_alignTop="@+id/tv_latitude"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="@string/rozpocznij"
+        android:id="@+id/btn_main_start"
+        android:background="@color/buttonColor"
+        android:layout_below="@+id/tv_gpsinfo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="34dp" />
+
+    <Button
+        android:text="Zaloguj"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/btn_login"
+        android:background="@color/buttonColor"
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/btn_main_start"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

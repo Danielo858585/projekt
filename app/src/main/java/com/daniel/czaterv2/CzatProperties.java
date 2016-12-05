@@ -1,26 +1,36 @@
 package com.daniel.czaterv2;
 
-import com.google.android.gms.maps.model.LatLng;
-
 /**
  * Created by Daniel on 18.11.2016.
  */
 
 public class CzatProperties {
-    private int maxUsersNumber;
+
+
+    private double latitude;
+    private double longitude;
     private int range;
     private String name;
-    private LatLng position;
+    private int maxUsersNumber;
+
 
     public CzatProperties() {
     }
 
-    public LatLng getPosition() {
-        return position;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setPosition(LatLng position) {
-        this.position = position;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public int getMaxUsersNumber() {

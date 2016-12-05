@@ -21,7 +21,6 @@ public class LoginActivity extends Activity {
     private EditText login;
     private EditText pass;
     private Button acceptLogin;
-    private Button registry;
     private boolean dataComplete;
     private User user;
     private String nameString;
@@ -38,7 +37,6 @@ public class LoginActivity extends Activity {
         login = (EditText) findViewById(R.id.et_login);
         pass = (EditText) findViewById(R.id.et_password);
         acceptLogin = (Button) findViewById(R.id.btn_acceptLogin);
-        registry = (Button) findViewById(R.id.btn_goToRegistry);
         intentParent = getIntent();
 
         acceptLogin.setOnClickListener(new View.OnClickListener() {
@@ -82,14 +80,6 @@ public class LoginActivity extends Activity {
                     pass.setText("");
                     Log.d("A","Jestem w ELSIE");
                 }
-            }
-        });
-
-        registry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentParent = new Intent(getApplicationContext(), RegistryActivity.class);
-                startActivity(intentParent);
             }
         });
     }

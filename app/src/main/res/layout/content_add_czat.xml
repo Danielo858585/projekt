@@ -56,5 +56,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/btn_defineCzatCenter"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/mybutton"/>
+        android:background="@color/buttonColor"/>
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.daniel.czaterv2;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -9,8 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,24 +35,16 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     final static int LOGIN = 1;
+    final static int REGISTRY = 2;
     private Button start;
     private Button gps_on;
     private Button go_to_map;
     private Button login;
+    private Button registry;
     private Button checkGPSPosition;
     private LocationManager locationManager;
     private User user;
@@ -64,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private String pass;
     private String userString;
     private GPSManager gps;
+    private AnonymousSend anonymousSend;
     private double lng = 0;
     private double lat = 0;
     private LocationRequest locationRequest;
@@ -89,55 +79,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         longitudeTextView = (TextView) findViewById(R.id.tv_longitude);
         start = (Button) findViewById(R.id.btn_main_start);
         gps_on = (Button) findViewById(R.id.btn_main_gps_enabled);
-
-        login = (Button) findViewById(R.id.btn_loginRegistry);
-//        checkGPSPosition = (Button) findViewById(R.id.btn_checkGPSPosition);
-//        go_to_map = (Button) findViewById(R.id.btn_map);
-
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .addInterceptor(logging)
-                .build();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-        WebService webService = retrofit.create(WebService.class);
-
-        // POBRANIE ADRESU MAC URZĄDZENIA
-        WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = manager.getConnectionInfo();
-        String address = info.getMacAddress();
-        AnonymousClass anonymousClass;
-
-
-        try {
-            final Call<UserAnonymous> userAnonymous = webService.userAnonymous(new AnonymousClass(address));
-            Log.d("MainActivity", "TRY");
-            userAnonymous.enqueue(new Callback<UserAnonymous>() {
-                @Override
-                public void onResponse(Call<UserAnonymous> call, Response<UserAnonymous> response) {
-                    Log.d("MainActivity", "ON RESPONSE");
-                    Log.d("MainActivityResponse", response.toString());
-
-                    UserAnonymous userAnonymous1 = response.body();
-                }
-
-                @Override
-                public void onFailure(Call<UserAnonymous> call, Throwable t) {
-                    Log.d("MainActivity", "ON FAILURE");
-                    Log.d("ON FAILURE", call.toString());
-                    Log.d("ON FAILURE", t.toString());
-                }
-            });
-
-        } catch (Exception e) {
-            Log.d("MainActivity", e.toString());
-        }
+        login = (Button) findViewById(R.id.btn_login);
+        registry = (Button) findViewById(R.id.btn_registry);
 
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient
@@ -162,26 +105,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 gps_enable();
             }
         });
-//        go_to_map.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mapy();
-//            }
-//        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
             }
         });
-//        checkGPSPosition.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
-
+        registry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registry();
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode,
@@ -233,11 +168,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         startActivity(callGPSSettingIntent);
     }
 
-    private void mapy() {
-        Intent mapy = new Intent(this, MapsActivity.class);
-        startActivity(mapy);
-    }
-
     private void checkGPS() {
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -258,6 +188,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void login() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, LOGIN);
+    }
+
+    private void registry() {
+        Intent intent = new Intent(this, RegistryActivity.class);
+        startActivityForResult(intent, REGISTRY);
     }
 
     public void checkPermision() {
@@ -301,8 +236,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         } else {
             Log.d("Else w OnConnected", "Ostatnia znana jest nie znana. ");
         }
-
-
     }
 
     @Override
@@ -423,6 +356,5 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(googleApiClient, getIndexApiAction());
     }
-
 
 }

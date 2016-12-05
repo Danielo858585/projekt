@@ -14,7 +14,7 @@ public class User {
     public User(){}
 
     public User(UserAnonymous userAnonymous) {
-        login = userAnonymous.getName();
+        name = userAnonymous.getName();
     }
 
     public User(String login, String password){

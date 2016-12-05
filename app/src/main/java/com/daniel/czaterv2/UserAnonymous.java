@@ -4,9 +4,11 @@ package com.daniel.czaterv2;
  * Created by Daniel on 02.12.2016.
  */
 
-public class UserAnonymous extends User{
+public class UserAnonymous{
     public String name;
     public String token;
+
+    public UserAnonymous(){}
 
     public UserAnonymous(String name, String token) {
         this.name = name;

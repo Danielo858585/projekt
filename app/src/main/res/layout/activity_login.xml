@@ -53,15 +53,4 @@
         android:clickable="false"
         android:background="@color/buttonColor"/>
 
-    <Button
-        android:text="zarejestruj"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="54dp"
-        android:id="@+id/btn_goToRegistry"
-        android:background="@color/buttonColor"
-        android:layout_marginTop="40dp" />
-
 </LinearLayout>

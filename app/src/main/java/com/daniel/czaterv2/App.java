@@ -9,6 +9,8 @@ public class App extends Application {
 
     private User user;
 
+    private UserAnonymous userAnonymous;
+
     public static App getInstance() {
         return instance;
     }
@@ -23,6 +25,14 @@ public class App extends Application {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public UserAnonymous getUserAnonymous() {
+        return userAnonymous;
+    }
+
+    public void setUserAnonymous(UserAnonymous userAnonymous) {
+        this.userAnonymous = userAnonymous;
     }
 
     @Override

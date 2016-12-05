@@ -3,10 +3,10 @@ package com.daniel.czaterv2;
 /**
  * Created by Daniel on 30.11.2016.
  */
-public class AnonymousClass {
+public class AnonymousSend {
     public String uid;
 
-    public AnonymousClass(String uid) {
+    public AnonymousSend(String uid) {
         this.uid = uid;
     }
 

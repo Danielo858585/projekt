@@ -30,6 +30,7 @@ public class RegistryActivity extends Activity {
     Button btn_registryAccept;
     WebService webService;
     Retrofit retrofit;
+    //final static int REGISTRY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

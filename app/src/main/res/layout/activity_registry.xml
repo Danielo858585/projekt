@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_registry"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:baselineAligned="false"
-    android:background="@android:color/background_light">
+    android:background="@android:color/background_light"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
         android:id="@+id/tv_registryUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Podaj nazwę"
-        android:textSize="18sp"
+        android:textSize="14sp"
 
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="15dp" />
 
     <EditText
         android:id="@+id/et_registryUserName"
@@ -27,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Podaj adres email"
-        android:textSize="18sp"
+        android:textSize="14sp"
 
         android:gravity="center_vertical|center_horizontal" />
 
@@ -43,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Wprowadź hasło"
-        android:textSize="18sp"
+        android:textSize="14sp"
 
         android:gravity="center_vertical|center_horizontal" />
 
