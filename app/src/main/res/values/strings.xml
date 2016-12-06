@@ -34,4 +34,8 @@
     <string name="noGPSSignal">Brak możliwości ustalenia</string>
     <string name="title_activity_maps2">Map</string>
     <string name="title_activity_maps3">Map</string>
+    <string name="type_your_message">Enter msg</string>
+    <string name="NoRecent">No recent</string>
+    <string name="IPSend">http://192.168.0.2:8080/</string>
+
 </resources>

@@ -158,7 +158,7 @@ public class CzatListActivity extends Activity {
                     App.getInstance().setUserAnonymous(userAnonymous1);
                     et_user_name.setText(userAnonymous1.name);
                     Log.d("UserAnonymous name", userAnonymous1.name);
-                    Log.d("UserAnonymous ntoken", userAnonymous1.token);
+                    Log.d("UserAnonymous token", userAnonymous1.token);
                 }
 
                 @Override

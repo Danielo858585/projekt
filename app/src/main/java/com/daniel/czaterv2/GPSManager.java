@@ -1,22 +1,34 @@
 package com.daniel.czaterv2;
 
-import android.Manifest;
+import android.content.Context;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+
+import static com.daniel.czaterv2.MainActivity.REQUEST_CHECK_SETTINGS;
 
 /**
  * Created by Daniel on 03.11.2016.
@@ -25,90 +37,72 @@ import com.google.android.gms.location.LocationServices;
 public class GPSManager extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private GoogleApiClient googleApiClient;
-    private Location location;
+    public int checkPermissionLocalizationFine;
+    public int checkPermissionLocalizationCoarse;
     private double longitude;
     private double latitude;
     private LocationRequest locationRequest;
+    private LocationManager locationManager;
     private Boolean mRequestingLocationUpdates;
-    protected static final int REQUEST_CHECK_SETTINGS = 1;
-    int checkPermissionLocalizationFine;
-    int checkPermissionLocalizationCoarse;
+    private Context context;
 
-    public GPSManager() {
 
+    public GPSManager(Context context) {
+        this.context = context;
     }
 
-    public GPSManager(int checkPermissionLocalizationFine, int checkPermissionLocalizationCoarse) {
-        this.checkPermissionLocalizationFine = checkPermissionLocalizationFine;
-        this.checkPermissionLocalizationCoarse = checkPermissionLocalizationCoarse;
+    public void checkPermissions(){
+        if (this.checkPermissionLocalizationFine != 0) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 777);
+            }
+        }
+        if (this.checkPermissionLocalizationCoarse != 0) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 666);
+            }
+        }
     }
 
-//    public void buildGoogleApiClient(){
-//        if (googleApiClient == null) {
-//            // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
-//            // See https://g.co/AppIndexing/AndroidStudio for more information.
-//            googleApiClient = new GoogleApiClient.Builder(this)
-//                    .addConnectionCallbacks(this)
-//                    .addOnConnectionFailedListener(this)
-//                    .addApi(LocationServices.API)
-//                    .addApi(AppIndex.API)
-//                    .build();
-//            createLocationRequest();
-//        }
-//    }
+    protected void createLocationRequest(GoogleApiClient googleApiClient) {
+        this.googleApiClient = googleApiClient;
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(7000);
+        locationRequest.setFastestInterval(3500);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        final PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
 
-//    public void checkPermissions(){
-//        if (this.checkPermissionLocalizationFine != 0) {
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-//
-//            } else {
-//                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 777);
-//            }
-//        }
-//        if (this.checkPermissionLocalizationCoarse != 0) {
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
-//
-//            } else {
-//                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 666);
-//            }
-//        }
-//    }
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+                final Status status = locationSettingsResult.getStatus();
+                final LocationSettingsStates locationSettingsStates = locationSettingsResult.getLocationSettingsStates();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
 
-//    protected void createLocationRequest(GoogleApiClient googleApiClient) {
-//        this.googleApiClient = googleApiClient;
-//        locationRequest = new LocationRequest();
-//        locationRequest.setInterval(7000);
-//        locationRequest.setFastestInterval(3500);
-//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-//        final PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-//
-//        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-//            @Override
-//            public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
-//                final Status status = locationSettingsResult.getStatus();
-//                final LocationSettingsStates locationSettingsStates = locationSettingsResult.getLocationSettingsStates();
-//                switch (status.getStatusCode()) {
-//                    case LocationSettingsStatusCodes.SUCCESS:
-//
-//                        break;
-//                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-//                        try {
-//                            // Show the dialog by calling startResolutionForResult(),
-//                            // and check the result in onActivityResult().
-//                            status.startResolutionForResult(getParent(), REQUEST_CHECK_SETTINGS);
-//                        } catch (IntentSender.SendIntentException e) {
-//                            Log.e("CATCH", e.toString());
-//                        } catch (Exception e){
-//                            Log.e("CATCH", e.toString());
-//                        }
-//                        break;
-//                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-//                        break;
-//                }
-//            }
-//        });
-//    }
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            // Show the dialog by calling startResolutionForResult(),
+                            // and check the result in onActivityResult().
+                            status.startResolutionForResult(getParent(), REQUEST_CHECK_SETTINGS);
+                        } catch (IntentSender.SendIntentException e) {
+                            Log.e("CATCH", e.toString());
+                        } catch (Exception e){
+                            Log.e("CATCH", e.toString());
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        break;
+                }
+            }
+        });
+    }
 
     // -----------------  GOOGLE API CLIENT METHODS  -------------------------
     @Override
@@ -124,9 +118,13 @@ public class GPSManager extends AppCompatActivity implements GoogleApiClient.Con
             return;
         }
 
-        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        if (mRequestingLocationUpdates) {
-            startLocationUpdates();
+        Log.d("GoogleApiClient", "Metoda onConnected");
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                googleApiClient);
+        if (mLastLocation != null) {
+
+        } else {
+            Log.d("Else w OnConnected", "Ostatnia znana jest nie znana. ");
         }
     }
 
@@ -160,21 +158,6 @@ public class GPSManager extends AppCompatActivity implements GoogleApiClient.Con
                 .build();
     }
 
-    protected void startLocationUpdates() {
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                googleApiClient, locationRequest, this);
-    }
 
     public double getLongitude() {
         return longitude;

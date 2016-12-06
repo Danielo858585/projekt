@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private String name;
     private String pass;
     private String userString;
-    private GPSManager gps;
+    private GPSManager gpsManager;
     private AnonymousSend anonymousSend;
     private double lng = 0;
     private double lat = 0;
@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
         checkPermissionLocalizationFine = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
         checkPermissionLocalizationCoarse = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        gps = new GPSManager(checkPermissionLocalizationFine, checkPermissionLocalizationCoarse);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         gps_info = (TextView) findViewById(R.id.tv_gpsinfo);
         latitudeTextView = (TextView) findViewById(R.id.tv_latitude);
@@ -93,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         createLocationRequest();
+
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                     Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK) {
-            // sprawdzamy czy przyszło odpowiednie żądanie
             if (requestCode == LOGIN) {
                 user = App.getInstance().getUser();
             } else {
@@ -134,8 +133,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
-
-    //SHOW GPS STATUS
     private void showGPSDisabledAlertToUser() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Włącz GPS")

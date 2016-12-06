@@ -2,6 +2,7 @@ package com.daniel.czaterv2;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 
 public class App extends Application {
 
@@ -10,6 +11,10 @@ public class App extends Application {
     private User user;
 
     private UserAnonymous userAnonymous;
+
+    public static volatile Handler applicationHandler = null;
+
+
 
     public static App getInstance() {
         return instance;
@@ -39,5 +44,8 @@ public class App extends Application {
     public void onCreate() {
         instance = this;
         super.onCreate();
+        applicationHandler = new Handler(getInstance().getMainLooper());
+
+        NativeLoader.initNativeLibs(App.getInstance());
     }
 }
