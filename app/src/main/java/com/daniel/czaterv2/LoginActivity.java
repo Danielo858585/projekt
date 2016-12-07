@@ -13,6 +13,9 @@ import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -49,24 +52,24 @@ public class LoginActivity extends Activity {
                     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                     OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://192.168.43.213:8180/")
+                            .baseUrl(App.getSendURL())
                             .addConverterFactory(GsonConverterFactory.create(new Gson()))
                             .client(client)
                             .build();
 
-//                    WebService webService = retrofit.create(WebService.class);
-//                    Call<Void> call = webService.login(new User("viader", 1, "password", "viader@gmail.com"));
-//                    call.enqueue(new Callback<Void>() {
-//                        @Override
-//                        public void onResponse(Call<Void> call, Response<Void> response) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<Void> call, Throwable t) {
-//
-//                        }
-//                    });
+                    WebService webService = retrofit.create(WebService.class);
+                    Call<User> call = webService.userLogin(new User(login.toString(),pass.toString()));
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            user = response.body();
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+
+                        }
+                    });
 
                     nameString = login.getText().toString();
                     passString = pass.getText().toString();

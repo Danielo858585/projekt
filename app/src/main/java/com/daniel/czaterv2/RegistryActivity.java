@@ -52,7 +52,7 @@ public class RegistryActivity extends Activity {
                 .addInterceptor(logging)
                 .build();
         retrofit = new Retrofit.Builder()
-                .baseUrl("@string/IPSend")
+                .baseUrl(App.getSendURL())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

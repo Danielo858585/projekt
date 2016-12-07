@@ -13,7 +13,8 @@
     tools:showIn="@layout/activity_add_czat"
     android:orientation="vertical"
     android:elevation="1dp"
-    android:background="@android:color/background_light">
+    android:background="@android:color/background_light"
+    android:weightSum="1">
 
     <TextView
         android:text="Nazwa czatu"
@@ -80,20 +81,20 @@
     <Button
         android:text="Określ położenie czatu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="35dp"
         android:id="@+id/btn_defineCzatCenter"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_weight="1"
-        android:background="@color/buttonColor"/>
+        android:background="@color/buttonColor"
+        android:layout_weight="0.07"
+        android:layout_marginTop="20dp" />
 
     <Button
         android:text="Zaakceptuj wybór"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="35dp"
         android:id="@+id/btn_acceptNewCzat"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_weight="1"
         android:background="@color/buttonColor"/>
 </LinearLayout>

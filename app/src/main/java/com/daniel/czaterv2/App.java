@@ -8,13 +8,13 @@ public class App extends Application {
 
     private static App instance;
 
+    private static final String sendURL = "http://192.168.0.2:8080";
+
     private User user;
 
     private UserAnonymous userAnonymous;
 
     public static volatile Handler applicationHandler = null;
-
-
 
     public static App getInstance() {
         return instance;
@@ -38,6 +38,10 @@ public class App extends Application {
 
     public void setUserAnonymous(UserAnonymous userAnonymous) {
         this.userAnonymous = userAnonymous;
+    }
+
+    public static String getSendURL() {
+        return sendURL;
     }
 
     @Override

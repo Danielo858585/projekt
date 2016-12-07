@@ -341,9 +341,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         googleApiClient.connect();
         super.onStart();
         checkPermision();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.start(googleApiClient, getIndexApiAction());
+
+        if(App.getInstance().getUser()==null){
+            start.setText("Rozpocznij jako anonimowy");
+        }
+        else{
+            String username = App.getInstance().getUser().getLogin();
+            start.setText("Rozpocznij jako " + username);
+        }
     }
 
     @Override

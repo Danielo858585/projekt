@@ -9,6 +9,21 @@
     android:background="@android:color/background_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:elevation="0dp" />
+
+    </android.support.design.widget.AppBarLayout>
+
     <TextView
         android:id="@+id/tv_registryUserName"
         android:layout_width="match_parent"
@@ -64,5 +79,15 @@
         android:text="Zarejestruj"
 
         android:background="@color/buttonColor"/>
+
+    <TextView
+        android:text="@string/registryInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_registyInfo"
+        android:layout_marginTop="100dp"
+        android:gravity="left"
+        android:textAlignment="center"
+        android:textAllCaps="false" />
 
 </LinearLayout>
