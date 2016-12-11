@@ -96,5 +96,6 @@
         android:id="@+id/btn_acceptNewCzat"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/buttonColor"/>
+        android:background="@color/buttonColor"
+        android:layout_marginTop="10dp" />
 </LinearLayout>

@@ -1,12 +1,14 @@
 package com.daniel.czaterv2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +30,10 @@ public class RegistryActivity extends Activity {
     EditText et_registryUserEmail;
     EditText et_registryUserPass;
     Button btn_registryAccept;
+    Button btn_backFromRegistry;
     WebService webService;
     Retrofit retrofit;
+    Intent intentParent;
     //final static int REGISTRY = 2;
 
     @Override
@@ -43,12 +47,14 @@ public class RegistryActivity extends Activity {
         et_registryUserEmail = (EditText) findViewById(R.id.et_registryUserEmail);
         et_registryUserPass = (EditText) findViewById(R.id.et_registryUserPass);
         btn_registryAccept = (Button) findViewById(R.id.btn_registryRegistry);
+        btn_backFromRegistry = (Button) findViewById(R.id.btn_backFromRegistry);
+        intentParent = getIntent();
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
                 .addInterceptor(logging)
                 .build();
         retrofit = new Retrofit.Builder()
@@ -74,6 +80,15 @@ public class RegistryActivity extends Activity {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             Log.d("RegistryActivity", "ON RESPONSE");
+                            if (response.code() == 201) {
+                                setResult(RESULT_OK, intentParent);
+                                finish();
+                            } else if (response.code() == 422) {
+                                Toast tost = Toast.makeText(getApplicationContext(),
+                                        "Brak możliwości rejestracji. Skontaktuj się administracją",
+                                        Toast.LENGTH_SHORT);
+                                tost.show();
+                            }
                         }
 
                         @Override
@@ -86,7 +101,13 @@ public class RegistryActivity extends Activity {
                 }
             }
         });
+        btn_backFromRegistry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, intentParent);
+                finish();
+            }
+        });
     }
-
 
 }

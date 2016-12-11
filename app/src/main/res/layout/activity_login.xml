@@ -1,74 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.daniel.czaterv2.LoginActivity"
-    android:background="@android:color/background_light">
+    tools:context="com.daniel.czaterv2.LoginActivity">
 
     <EditText
+        android:id="@+id/et_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:id="@+id/et_login"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="30dp"
-        android:hint="Wprowadź login"
+        android:ems="10"
+        android:hint="Wprowadź login lub email"
+        android:inputType="textPersonName"
         android:textSize="14dp" />
 
     <EditText
+        android:id="@+id/et_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberPassword"
-        android:ems="10"
-        android:id="@+id/et_password"
-        android:layout_below="@+id/et_login"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/et_login"
         android:layout_marginTop="30dp"
+        android:ems="10"
         android:hint="Wprowadź hasło"
+        android:inputType="numberPassword"
         android:textSize="14sp" />
 
     <Button
-    android:text="zaloguj"
-    android:layout_width="match_parent"
-    android:layout_height="35dp"
-    android:id="@+id/btn_acceptLogin"
-    android:layout_below="@+id/et_password"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true"
-    android:elevation="0dp"
-    android:layout_marginTop="30dp"
-    android:clickable="false"
-    android:background="@color/buttonColor"/>
-
-    <Button
-        android:text="powrót"
+        android:id="@+id/btn_acceptLogin"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:id="@+id/btn_backFromLogin"
-        android:layout_below="@+id/btn_acceptLogin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:elevation="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/et_password"
         android:layout_marginTop="30dp"
+        android:background="@color/buttonColor"
         android:clickable="false"
-        android:background="@color/buttonColor"/>
+        android:elevation="0dp"
+        android:text="zaloguj" />
+
+    <Button
+        android:id="@+id/btn_backFromLogin"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_acceptLogin"
+        android:layout_marginTop="30dp"
+        android:background="@color/buttonColor"
+        android:clickable="false"
+        android:elevation="0dp"
+        android:text="powrót" />
+
+    <TextView
+        android:id="@+id/tv_loginActivityInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:text="@string/loginInfo" />
 
 </LinearLayout>

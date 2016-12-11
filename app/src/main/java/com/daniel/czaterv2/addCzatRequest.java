@@ -4,19 +4,17 @@ package com.daniel.czaterv2;
  * Created by Daniel on 18.11.2016.
  */
 
-public class CzatProperties {
+public class AddCzatRequest {
 
 
-    private int id;
     private double latitude;
-
     private double longitude;
     private int range;
     private String name;
     private int maxUsersNumber;
 
 
-    public CzatProperties() {
+    public AddCzatRequest() {
     }
 
     public double getLatitude() {
@@ -65,14 +63,6 @@ public class CzatProperties {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
 }

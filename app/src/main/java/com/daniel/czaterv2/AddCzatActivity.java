@@ -18,6 +18,7 @@ public class AddCzatActivity extends Activity {
     private TextView maxUsersView;
     private TextView rangeView;
     private Button defineCzatLocation;
+    private Button acceptNewCzat;
     private CzatProperties czatProperties;
     private JSONObject jsonObject;
     private Boolean dataComplete;
@@ -36,6 +37,7 @@ public class AddCzatActivity extends Activity {
         maxUsers = (SeekBar) findViewById(R.id.sb_maxUsers);
         czatRange = (SeekBar) findViewById(R.id.sb_range);
         defineCzatLocation = (Button) findViewById(R.id.btn_defineCzatCenter);
+        acceptNewCzat = (Button) findViewById(R.id.btn_acceptNewCzat);
         maxUsersView = (TextView) findViewById(R.id.tv_sbMaxUsersView);
         rangeView = (TextView) findViewById(R.id.tv_sbRangeView);
         jsonObject = new JSONObject();
@@ -43,9 +45,9 @@ public class AddCzatActivity extends Activity {
         czatRangeInt = 1000;
         maxUsers.setLeft(1);
         maxUsers.setRight(10);
-
         czatRange.setLeft(1);
         czatRange.setRight(10000);
+        czatRange.setProgress(100);
 
         maxUsers.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -93,23 +95,33 @@ public class AddCzatActivity extends Activity {
                     Toast tost = Toast.makeText(getApplicationContext(), "Wprowadz nazwe czatu", Toast.LENGTH_SHORT);
                     tost.show();
                 } else {
-                    //czatProperties.setMaxUsers(maxUsers2);
-//                    czatProperties.setName(czatName.getText().toString());
-   //                 czatProperties.setRange(Integer.parseInt(czatRange.getText().toString()));
                     Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                    Bundle bundle = new Bundle();
-
-                    bundle.putInt("range",czatRangeInt);
-                    intent.putExtras(bundle);
+                    intent.putExtra("range", czatRangeInt);
                     startActivityForResult(intent, GET_CZAT_CENTER_INTENT);
                 }
             }
         });
+
+        acceptNewCzat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CzatProperties czatProperties = new CzatProperties();
+                czatProperties.setRange(czatRangeInt);
+            }
+        });
+
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent intent) {
+        if (requestCode==GET_CZAT_CENTER_INTENT){
+            if (resultCode==RESULT_OK){
+                intent = getIntent();
+                intent.getExtras();
+            }
+        }
 
 
     }

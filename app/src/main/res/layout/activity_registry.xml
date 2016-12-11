@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:elevation="0dp" />
+            android:elevation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -75,10 +75,24 @@
     <Button
         android:id="@+id/btn_registryRegistry"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="Zarejestruj"
-
         android:background="@color/buttonColor"/>
+
+    <Button
+        android:id="@+id/btn_backFromRegistry"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_registryRegistry"
+        android:layout_marginTop="30dp"
+        android:background="@color/buttonColor"
+        android:clickable="false"
+        android:elevation="0dp"
+        android:text="powrót" />
 
     <TextView
         android:text="@string/registryInfo"

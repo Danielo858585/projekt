@@ -122,14 +122,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == LOGIN) {
+        if (requestCode == LOGIN) {
+            if (resultCode == RESULT_OK) {
                 user = App.getInstance().getUser();
-            } else {
                 Log.d("Name", user.getLogin());
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Logowanie nie powiodło się", Toast.LENGTH_LONG);
+                toast.show();
+            } else {
+                Log.d("Dupa", "Nie weszło w IFA w Main");
             }
-        } else {
-            Log.d("Dupa", "Nie weszło w IFA w Main");
         }
     }
 
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void registry() {
-        Intent intent = new Intent(this, RegistryActivity.class);
+        Intent intent = new Intent(this, UserRegistry.class);
         startActivityForResult(intent, REGISTRY);
     }
 
@@ -343,10 +345,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         checkPermision();
         AppIndex.AppIndexApi.start(googleApiClient, getIndexApiAction());
 
-        if(App.getInstance().getUser()==null){
+        if (App.getInstance().getUser() == null) {
             start.setText("Rozpocznij jako anonimowy");
-        }
-        else{
+        } else {
             String username = App.getInstance().getUser().getLogin();
             start.setText("Rozpocznij jako " + username);
         }

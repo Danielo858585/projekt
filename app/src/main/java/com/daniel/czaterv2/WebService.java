@@ -18,7 +18,7 @@ public interface WebService {
     Call<UserLoginResponse> userLogin (@Body UserLoginRequest userLoginRequest);
 
     @POST("/puszek/addChat")
-    Call<ChatId> chatId (@Body CzatProperties czatProperties);
+    Call<AddCzatResponse> addCzatResponseCall (@Body AddCzatRequest AddCzatRequest);
 
     @POST("/puszek/getChatList")
     Call <List<ChatId>> getChatList (@Body GetChatList getChatList);

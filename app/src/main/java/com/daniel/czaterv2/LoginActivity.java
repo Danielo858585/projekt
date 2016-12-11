@@ -24,6 +24,7 @@ public class LoginActivity extends Activity {
     private EditText login;
     private EditText pass;
     private Button acceptLogin;
+    private Button backFromLogin;
     private boolean dataComplete;
     private UserLoginResponse userLoginResponse;
     private String nameString;
@@ -31,7 +32,6 @@ public class LoginActivity extends Activity {
     private Intent intentParent;
     private Bundle bundle;
     private User user;
-    final static int LOGIN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class LoginActivity extends Activity {
         login = (EditText) findViewById(R.id.et_login);
         pass = (EditText) findViewById(R.id.et_password);
         acceptLogin = (Button) findViewById(R.id.btn_acceptLogin);
+        backFromLogin = (Button) findViewById(R.id.btn_backFromLogin);
         intentParent = getIntent();
 
         acceptLogin.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +65,8 @@ public class LoginActivity extends Activity {
                         @Override
                         public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
                             if (response.code() == 201) {
-
-                                user = new User(nameString, passString);
+                                userLoginResponse = response.body();
+                                user = new User(userLoginResponse);
                                 App.getInstance().setUser(user);
                                 setResult(RESULT_OK, intentParent);
                                 finish();
@@ -73,7 +74,6 @@ public class LoginActivity extends Activity {
                                 Toast tost = Toast.makeText(getApplicationContext(), "Brak użytkownika " + login.toString(), Toast.LENGTH_SHORT);
                                 tost.show();
                             }
-                            userLoginResponse = response.body();
                         }
 
                         @Override
@@ -89,7 +89,17 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+
+        backFromLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, intentParent);
+                finish();
+            }
+        });
     }
+
+
 
     private void checkdata() {
         dataComplete = false;
