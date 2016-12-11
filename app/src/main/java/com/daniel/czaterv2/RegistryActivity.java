@@ -48,7 +48,7 @@ public class RegistryActivity extends Activity {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10,TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .addInterceptor(logging)
                 .build();
         retrofit = new Retrofit.Builder()
@@ -61,27 +61,27 @@ public class RegistryActivity extends Activity {
         btn_registryAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String userNameString = et_registryUserName.getText().toString();
                 String userNamePass = et_registryUserPass.getText().toString();
                 String userNameEmail = et_registryUserEmail.getText().toString();
-                user = new UserRegistry(userNameString,userNameEmail,userNamePass);
+                user = new UserRegistry(userNameString, userNameEmail, userNamePass);
 
-                try{
+                try {
                     Call<Void> createUser = webService.createUser(user);
-                    Log.d("MainActivity","TRY");
+                    Log.d("RegistryActivity", "TRY");
                     createUser.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-                            Log.d("RegistryActivity","ON RESPONSE");
+                            Log.d("RegistryActivity", "ON RESPONSE");
                         }
 
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
-                            Log.d("RegistryActivity","ON FAILURE");
+                            Log.d("RegistryActivity", "ON FAILURE");
                         }
                     });
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     Log.d("RegistryActivity", e.toString());
                 }
             }

@@ -8,19 +8,19 @@ import retrofit2.http.POST;
 
 public interface WebService {
 
-    @POST("/puszek-1.0.0-SNAPSHOT/register")
+    @POST("/puszek/register")
     Call<Void> createUser(@Body UserRegistry userRegistry);
 
-    @POST("/puszek-1.0.0-SNAPSHOT/anonymousLogin")
+    @POST("/puszek/anonymousLogin")
     Call<UserAnonymous> userAnonymous (@Body AnonymousSend anonymousSend);
 
-    @POST("/puszek-1.0.0-SNAPSHOT/login")
-    Call<User> userLogin (@Body User user);
+    @POST("/puszek/login")
+    Call<UserLoginResponse> userLogin (@Body UserLoginRequest userLoginRequest);
 
-    @POST("/puszek-1.0.0-SNAPSHOT/addChat")
+    @POST("/puszek/addChat")
     Call<ChatId> chatId (@Body CzatProperties czatProperties);
 
-    @POST("/puszek-1.0.0-SNAPSHOT/getChatList")
+    @POST("/puszek/getChatList")
     Call <List<ChatId>> getChatList (@Body GetChatList getChatList);
 
 }

@@ -38,6 +38,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CzatProperties czat1;
     private CzatProperties czat2;
     private CzatProperties czat3;
+    private Marker marker;
+    int i = 0;
+
+
 
 
     @Override
@@ -82,8 +86,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onBackPressed(){
+        CzatProperties czatProperties = new CzatProperties();
+        czatProperties.setLatitude(marker.getPosition().latitude);
+        czatProperties.setLongitude(marker.getPosition().longitude);
+        App.getInstance().setCzatProperties(czatProperties);
+    }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        onBackPressed();
         mMap = googleMap;
         LatLng pozycja2 = new LatLng(51.236658, 22.548534);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pozycja2, 10));
@@ -115,12 +127,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                if(i>=1){
+                    mMap.clear();
+                    i=0;
+                }
 
                 if (czatRadius == 0) {
                     czatRadius = 1000;
                 }
                 Log.d("Radius",String.valueOf(czatRadius));
-                Marker marker = mMap.addMarker(new MarkerOptions()
+
+                marker = mMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title("Tutaj będzie centrum czatu"));
                 Circle circle = mMap.addCircle(new CircleOptions()
@@ -128,9 +145,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .radius(czatRadius)
                         .strokeColor(Color.RED)
                         .strokeWidth(3));
+                i++;
             }
         });
     }
+
     //------------------- KONIEC OnMapReady ----------------------------------
+
 }
 

@@ -22,10 +22,10 @@ public class User {
         this.password = password;
     }
 
-    public User(String login, String password, String email){
-        this.login = login;
-        this.password = password;
-        this.email = email;
+    public User(UserLoginResponse userLoginResponse){
+        this.token = userLoginResponse.getToken();
+        this.name = userLoginResponse.getName();
+        this.email = userLoginResponse.getEmail();
     }
 
     public User(String login) {
@@ -62,5 +62,13 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

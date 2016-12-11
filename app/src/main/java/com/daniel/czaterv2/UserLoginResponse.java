@@ -3,21 +3,21 @@ package com.daniel.czaterv2;
 /**
  * Created by Daniel on 13.09.2016.
  */
-public class UserRequest {
+public class UserLoginResponse {
 
     private String name;
     private String email;
-    private String pass;
-    private int id;
+    private String token;
 
-    public UserRequest(String name, String email, String pass, int id) {
+
+    public UserLoginResponse(String name, String email, String token) {
         this.name = name;
         this.email = email;
-        this.pass = pass;
-        this.id = id;
+        this.token = token;
     }
 
     public String getName() {
+
         return name;
     }
 
@@ -33,19 +33,11 @@ public class UserRequest {
         this.email = email;
     }
 
-    public String getPass() {
-        return pass;
+    public String getToken() {
+        return token;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setToken(String token) {
+        this.token = token;
     }
 }

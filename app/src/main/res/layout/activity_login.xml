@@ -42,11 +42,26 @@
         android:textSize="14sp" />
 
     <Button
-        android:text="zaloguj"
+    android:text="zaloguj"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:id="@+id/btn_acceptLogin"
+    android:layout_below="@+id/et_password"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:elevation="0dp"
+    android:layout_marginTop="30dp"
+    android:clickable="false"
+    android:background="@color/buttonColor"/>
+
+    <Button
+        android:text="powrót"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:id="@+id/btn_acceptLogin"
-        android:layout_below="@+id/et_password"
+        android:id="@+id/btn_backFromLogin"
+        android:layout_below="@+id/btn_acceptLogin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"

@@ -14,6 +14,8 @@ public class App extends Application {
 
     private UserAnonymous userAnonymous;
 
+    private CzatProperties czatProperties;
+
     public static volatile Handler applicationHandler = null;
 
     public static App getInstance() {
@@ -42,6 +44,14 @@ public class App extends Application {
 
     public static String getSendURL() {
         return sendURL;
+    }
+
+    public CzatProperties getCzatProperties() {
+        return czatProperties;
+    }
+
+    public void setCzatProperties(CzatProperties czatProperties) {
+        this.czatProperties = czatProperties;
     }
 
     @Override

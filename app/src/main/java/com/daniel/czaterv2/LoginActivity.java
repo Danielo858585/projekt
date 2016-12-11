@@ -25,11 +25,12 @@ public class LoginActivity extends Activity {
     private EditText pass;
     private Button acceptLogin;
     private boolean dataComplete;
-    private User user;
+    private UserLoginResponse userLoginResponse;
     private String nameString;
     private String passString;
     private Intent intentParent;
     private Bundle bundle;
+    private User user;
     final static int LOGIN = 1;
 
     @Override
@@ -58,30 +59,33 @@ public class LoginActivity extends Activity {
                             .build();
 
                     WebService webService = retrofit.create(WebService.class);
-                    Call<User> call = webService.userLogin(new User(login.toString(),pass.toString()));
-                    call.enqueue(new Callback<User>() {
+                    Call<UserLoginResponse> call = webService.userLogin(new UserLoginRequest(login.toString(), pass.toString()));
+                    call.enqueue(new Callback<UserLoginResponse>() {
                         @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                            user = response.body();
+                        public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
+                            if (response.code() == 201) {
+
+                                user = new User(nameString, passString);
+                                App.getInstance().setUser(user);
+                                setResult(RESULT_OK, intentParent);
+                                finish();
+                            } else if (response.code() == 422) {
+                                Toast tost = Toast.makeText(getApplicationContext(), "Brak użytkownika " + login.toString(), Toast.LENGTH_SHORT);
+                                tost.show();
+                            }
+                            userLoginResponse = response.body();
                         }
 
                         @Override
-                        public void onFailure(Call<User> call, Throwable t) {
+                        public void onFailure(Call<UserLoginResponse> call, Throwable t) {
 
                         }
                     });
-
-                    nameString = login.getText().toString();
-                    passString = pass.getText().toString();
-                    user = new User(nameString, passString);
-                    App.getInstance().setUser(user);
-                    setResult(RESULT_OK, intentParent);
-                    finish();
-                    Log.d("A","Jestem w IFIE");
+                    Log.d("LoginActivity", "Jestem w IFIE");
                 } else {
                     login.setText("");
                     pass.setText("");
-                    Log.d("A","Jestem w ELSIE");
+                    Log.d("A", "Jestem w ELSIE");
                 }
             }
         });
