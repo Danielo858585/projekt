@@ -23,7 +23,7 @@
         android:id="@+id/tv_newCzatName"
         android:textAlignment="center"
         android:gravity="center_vertical|center_horizontal"
-        android:textSize="24sp" />
+        android:textSize="16dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
         android:id="@+id/tv_maxUsers"
         android:textAlignment="center"
         android:gravity="center_vertical|center_horizontal"
-        android:textSize="24sp" />
+        android:textSize="16dp" />
 
     <SeekBar
         android:layout_width="match_parent"
@@ -52,7 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv_sbMaxUsersView"
-        android:numeric="integer"
         android:textAlignment="center" />
 
     <TextView
@@ -62,7 +61,7 @@
         android:id="@+id/tv_czatRange"
         android:textAlignment="center"
         android:gravity="center_vertical|center_horizontal"
-        android:textSize="24sp" />
+        android:textSize="16dp" />
 
     <SeekBar
         android:layout_width="match_parent"

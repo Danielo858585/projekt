@@ -71,7 +71,7 @@ public class RegistryActivity extends Activity {
                 String userNameString = et_registryUserName.getText().toString();
                 String userNamePass = et_registryUserPass.getText().toString();
                 String userNameEmail = et_registryUserEmail.getText().toString();
-                user = new UserRegistry(userNameString, userNameEmail, userNamePass);
+                user = new UserRegistry(userNameEmail, userNameString, userNamePass);
 
                 try {
                     Call<Void> createUser = webService.createUser(user);
@@ -80,13 +80,21 @@ public class RegistryActivity extends Activity {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             Log.d("RegistryActivity", "ON RESPONSE");
-                            if (response.code() == 201) {
+                            if (response.code() == 200) {
+                                Toast tost = Toast.makeText(getApplicationContext(), "Rejestracja została przeprowadzona prawidłowo",
+                                        Toast.LENGTH_LONG);
+                                tost.show();
                                 setResult(RESULT_OK, intentParent);
                                 finish();
                             } else if (response.code() == 422) {
                                 Toast tost = Toast.makeText(getApplicationContext(),
                                         "Brak możliwości rejestracji. Skontaktuj się administracją",
                                         Toast.LENGTH_SHORT);
+                                tost.show();
+                                Log.d("RegistryActivity - 422", response.toString());
+                            } else {
+                                Log.d("RegistryActivity", "Wystąpił nieoczekiwany błąd");
+                                Toast tost = Toast.makeText(getApplicationContext(), "Wystąpił nieoczekiwany błąd", Toast.LENGTH_LONG);
                                 tost.show();
                             }
                         }

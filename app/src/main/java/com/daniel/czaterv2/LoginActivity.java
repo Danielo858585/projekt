@@ -60,18 +60,22 @@ public class LoginActivity extends Activity {
                             .build();
 
                     WebService webService = retrofit.create(WebService.class);
-                    Call<UserLoginResponse> call = webService.userLogin(new UserLoginRequest(login.toString(), pass.toString()));
+                    Call<UserLoginResponse> call = webService.userLogin(new UserLoginRequest(login.getText().toString(), pass.getText().toString()));
                     call.enqueue(new Callback<UserLoginResponse>() {
                         @Override
                         public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
-                            if (response.code() == 201) {
+                            if (response.code() == 200) {
                                 userLoginResponse = response.body();
                                 user = new User(userLoginResponse);
                                 App.getInstance().setUser(user);
                                 setResult(RESULT_OK, intentParent);
                                 finish();
                             } else if (response.code() == 422) {
-                                Toast tost = Toast.makeText(getApplicationContext(), "Brak użytkownika " + login.toString(), Toast.LENGTH_SHORT);
+                                Toast tost = Toast.makeText(getApplicationContext(), "Brak użytkownika " + login.getText().toString(), Toast.LENGTH_LONG);
+                                tost.show();
+                            }
+                            else{
+                                Toast tost = Toast.makeText(getApplicationContext(), "Wystąpił nieoczekiwany błąd", Toast.LENGTH_LONG);
                                 tost.show();
                             }
                         }

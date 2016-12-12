@@ -25,7 +25,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private LocationManager lm;
-    private Double lat, lon;
+    private double latitude, longitude;
     private Location location;
     private GPSManager gpsManager;
     private int checkPermissionLocalizationFine;
@@ -41,9 +41,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker marker;
     int i = 0;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +51,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         checkPermissionLocalizationCoarse = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
         intent = getIntent();
         bundle = new Bundle();
-        Log.d("Maps_On_Create","a");
         bundle = intent.getExtras();
         if (bundle!=null){
             czatRadius = bundle.getInt("range");
@@ -62,7 +58,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else{
             czatRadius = 2000;
         }
+    }
 
+    @Override
+    public void onBackPressed(){
+        latitude = marker.getPosition().latitude;
+        longitude = marker.getPosition().longitude;
+        intent.putExtra("latitude",latitude);
+        intent.putExtra("longitude",longitude);
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        LatLng pozycja2 = new LatLng(51.236658, 22.548534);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pozycja2, 10));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mMap.clear();
+                if (czatRadius == 0) {
+                    czatRadius = 1000;
+                }
+                Log.d("Radius",String.valueOf(czatRadius));
+
+                marker = mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title("Tutaj będzie centrum czatu"));
+                Circle circle = mMap.addCircle(new CircleOptions()
+                        .center(latLng)
+                        .radius(czatRadius)
+                        .strokeColor(Color.RED)
+                        .strokeWidth(3));
+            }
+        });
+    }
+
+    //------------------- KONIEC OnMapReady ----------------------------------
+
+    private void setExamplesChats(){
         czat1 = new CzatProperties();
         czat1.setName("Czat 1");
         czat1.setRange(5000);
@@ -85,20 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         czat3.setMaxUsers(10);
     }
 
-    @Override
-    public void onBackPressed(){
-        CzatProperties czatProperties = new CzatProperties();
-        czatProperties.setLatitude(marker.getPosition().latitude);
-        czatProperties.setLongitude(marker.getPosition().longitude);
-        App.getInstance().setCzatProperties(czatProperties);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        onBackPressed();
-        mMap = googleMap;
-        LatLng pozycja2 = new LatLng(51.236658, 22.548534);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pozycja2, 10));
+    private void setExamplesMarkers(){
         Marker marker1 = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(czat1.getLatitude(),czat1.getLongitude()))
                 .title("Tutaj będzie centrum czatu"));
@@ -123,34 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .radius(czatRadius)
                 .strokeColor(Color.RED)
                 .strokeWidth(3));
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                if(i>=1){
-                    mMap.clear();
-                    i=0;
-                }
-
-                if (czatRadius == 0) {
-                    czatRadius = 1000;
-                }
-                Log.d("Radius",String.valueOf(czatRadius));
-
-                marker = mMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title("Tutaj będzie centrum czatu"));
-                Circle circle = mMap.addCircle(new CircleOptions()
-                        .center(latLng)
-                        .radius(czatRadius)
-                        .strokeColor(Color.RED)
-                        .strokeWidth(3));
-                i++;
-            }
-        });
     }
-
-    //------------------- KONIEC OnMapReady ----------------------------------
 
 }
 

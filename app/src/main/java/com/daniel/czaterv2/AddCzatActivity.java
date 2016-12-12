@@ -15,17 +15,13 @@ import org.json.JSONObject;
 public class AddCzatActivity extends Activity {
 
     private EditText czatName;
-    private TextView maxUsersView;
-    private TextView rangeView;
-    private Button defineCzatLocation;
-    private Button acceptNewCzat;
+    private TextView maxUsersView, rangeView;
+    private Button defineCzatLocation, acceptNewCzat;
     private CzatProperties czatProperties;
     private JSONObject jsonObject;
     private Boolean dataComplete;
-    private SeekBar maxUsers;
-    private SeekBar czatRange;
-    int maxUsersInt;
-    int czatRangeInt;
+    private SeekBar maxUsers, czatRange;
+    int maxUsersInt, czatRangeInt;
     private static final int GET_CZAT_CENTER_INTENT = 2;
 
     @Override
@@ -85,7 +81,6 @@ public class AddCzatActivity extends Activity {
             }
         });
 
-
         defineCzatLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,13 +115,10 @@ public class AddCzatActivity extends Activity {
             if (resultCode==RESULT_OK){
                 intent = getIntent();
                 intent.getExtras();
+
             }
         }
 
-
-    }
-
-    private void defineCzatCenter() {
 
     }
 }

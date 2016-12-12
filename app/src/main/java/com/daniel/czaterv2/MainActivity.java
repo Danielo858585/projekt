@@ -1,5 +1,6 @@
 package com.daniel.czaterv2;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,7 +39,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    final static int LOGIN = 1;
+    final static int LOGIN = 555;
     final static int REGISTRY = 2;
     private Button start;
     private Button gps_on;
@@ -125,12 +126,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (requestCode == LOGIN) {
             if (resultCode == RESULT_OK) {
                 user = App.getInstance().getUser();
-                Log.d("Name", user.getLogin());
+                Log.d("Name", user.getName());
             } else if (resultCode == RESULT_CANCELED) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Logowanie nie powiodło się", Toast.LENGTH_LONG);
                 toast.show();
             } else {
                 Log.d("Dupa", "Nie weszło w IFA w Main");
+            }
+        }
+        if (requestCode == REQUEST_CHECK_SETTINGS){
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    Log.d("MainActivity", "User agreed to make required location settings changes.");
+                    break;
+                case Activity.RESULT_CANCELED:
+                    Log.i("MainActivity", "User chose not to make required location settings changes.");
+                    break;
             }
         }
     }
@@ -190,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void registry() {
-        Intent intent = new Intent(this, UserRegistry.class);
+        Intent intent = new Intent(this, RegistryActivity.class);
         startActivityForResult(intent, REGISTRY);
     }
 
@@ -266,7 +277,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
         final PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-
         result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
             public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {

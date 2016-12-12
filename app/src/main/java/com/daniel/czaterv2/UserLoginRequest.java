@@ -8,9 +8,10 @@ public class UserLoginRequest {
     private String loginOrEmail;
     private String password;
 
-    public UserLoginRequest(String password, String loginOrEmail) {
-        this.password = password;
+    public UserLoginRequest(String loginOrEmail, String password ) {
         this.loginOrEmail = loginOrEmail;
+        this.password = password;
+
     }
 
     public String getLoginOrEmail() {
