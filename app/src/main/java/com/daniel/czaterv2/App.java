@@ -54,8 +54,6 @@ public class App extends Application {
         this.czatProperties = czatProperties;
     }
 
-
-
     @Override
     public void onCreate() {
         instance = this;
@@ -63,4 +61,6 @@ public class App extends Application {
         applicationHandler = new Handler(getInstance().getMainLooper());
         NativeLoader.initNativeLibs(App.getInstance());
     }
+
+
 }

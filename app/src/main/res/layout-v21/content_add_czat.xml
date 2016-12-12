@@ -77,16 +77,23 @@
         android:id="@+id/tv_sbRangeView"
         android:textAlignment="center" />
 
-    <Button
-        android:text="Określ położenie czatu"
+    <!--<Button-->
+        <!--android:text="Określ położenie czatu"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:id="@+id/btn_defineCzatCenter"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@color/buttonColor"-->
+        <!--android:layout_weight="0.07"-->
+        <!--android:layout_marginTop="20dp" />-->
+
+    <TextView
+        android:text="Koordynaty centrum czatu"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:id="@+id/btn_defineCzatCenter"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@color/buttonColor"
-        android:layout_weight="0.07"
-        android:layout_marginTop="20dp" />
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_addNewChatPosition"
+        android:textAlignment="center" />
 
     <Button
         android:text="Zaakceptuj wybór"

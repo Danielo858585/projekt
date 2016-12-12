@@ -1,0 +1,84 @@
+*   [33mcommit 0f7883109a5ad95b53b27e54e55ebc2d732c7f04[m
+[31m|[m[32m\[m  Merge: b2b3e90 bac2471
+[31m|[m [32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[31m|[m [32m|[m Date:   Mon Dec 12 19:57:54 2016 +0100
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     Merge branch 'master' of https://github.com/Danielo858585/projekt
+[31m|[m [32m|[m   
+[31m|[m * [33mcommit bac2471ad49caa4c5c15c2989f38859290e3bca0[m
+[31m|[m [32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[31m|[m [32m|[m Date:   Tue Dec 6 22:37:06 2016 +0100
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     Create README.md
+[31m|[m [32m|[m   
+* [32m|[m [33mcommit b2b3e9086b2098d37715c5010ee8ca7304a39519[m
+[32m|[m [32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m [32m|[m Date:   Mon Dec 12 19:50:20 2016 +0100
+[32m|[m [32m|[m 
+[32m|[m [32m|[m     Version 1.0.4 - Przed zmiana dodawania nowego czatu. Reszta działa
+[32m|[m [32m|[m   
+* [32m|[m [33mcommit 26b6316f9e4ea143850202acdd02d87fea533f31[m
+[32m|[m [32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m [32m|[m Date:   Mon Dec 12 00:14:27 2016 +0100
+[32m|[m [32m|[m 
+[32m|[m [32m|[m     Version 1.0.3 - Do zrobienia add czzt
+[32m|[m [32m|[m   
+* [32m|[m [33mcommit e19901dc6fee815883e4661775e0b4494db2b0aa[m
+[32m|[m [32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m [32m|[m Date:   Sun Dec 11 22:07:50 2016 +0100
+[32m|[m [32m|[m 
+[32m|[m [32m|[m     Version 1.0.2 Przed zmianami sposobu logowania, rejestracji
+[32m|[m [32m|[m   
+* [32m|[m [33mcommit 59a471b42f5fc5e45cc884c1c87d93bfe84b70dd[m
+[32m|[m [32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m [32m|[m Date:   Wed Dec 7 21:58:09 2016 +0100
+[32m|[m [32m|[m 
+[32m|[m [32m|[m     Version 1.0.1 Zmodyfikowane toolbary, działający webservice
+[32m|[m [32m|[m   
+* [32m|[m [33mcommit 9462d023bbae8135daa88293947d05f61d143389[m
+[32m|[m [32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m [32m|[m Date:   Tue Dec 6 21:06:49 2016 +0100
+[32m|[m [32m|[m 
+[32m|[m [32m|[m     Version 1.0.1- zaimplementowany zewnętrzny klient czata, wszystko działa
+[32m|[m [32m|[m   
+* [32m|[m [33mcommit 87f23947f52c1a53a0349124e359b1c94a3cd5bb[m
+[32m|[m [32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m [32m|[m Date:   Mon Dec 5 21:25:50 2016 +0100
+[32m|[m [32m|[m 
+[32m|[m [32m|[m     Wersja przed dodaniem zewnętrznego klienta czatu
+[32m|[m [32m|[m   
+* [32m|[m [33mcommit 4e9a21b56f6f41476062d114b4fcaa07a041dfa2[m
+[32m|[m[32m/[m  Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m   Date:   Sat Dec 3 11:02:53 2016 +0100
+[32m|[m   
+[32m|[m       20161203
+[32m|[m  
+* [33mcommit 7b80387cc1e8abf2c96e479d8b7795d198940be9[m
+[32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m Date:   Fri Dec 2 01:35:06 2016 +0100
+[32m|[m 
+[32m|[m     Dzialajacy webService, anonymousLogin i register
+[32m|[m  
+* [33mcommit affca1d7a4928701ed146e738152e427caaaa510[m
+[32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m Date:   Wed Nov 30 00:46:17 2016 +0100
+[32m|[m 
+[32m|[m     Poprawki przy retrofit, zmiana wyglądu, ogólne usprawnienia
+[32m|[m  
+* [33mcommit 8256f0049fba66bec98c5b0c918f362acb3a7567[m
+[32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m Date:   Fri Nov 18 01:18:47 2016 +0100
+[32m|[m 
+[32m|[m     Polepszenie działania aplikacji, dodanie nowych funkcji
+[32m|[m  
+* [33mcommit 32f93fb28379fcb53c2f42f1200112a8f1eac263[m
+[32m|[m Author: Danielo858585 <daniel.kolbus@gmail.com>
+[32m|[m Date:   Mon Nov 14 00:16:46 2016 +0100
+[32m|[m 
+[32m|[m     Przywrocenie wersji dzialajace, korekta dzialania lokalizacji, pozostala do skonczenia lokalizacja
+[32m|[m  
+* [33mcommit 734d2f7083fa0b0fbde92aa2d2672d48cd66db4d[m
+  Author: Danielo858585 <daniel.kolbus@gmail.com>
+  Date:   Sat Nov 12 11:59:58 2016 +0100
+  
+      Initial commit
