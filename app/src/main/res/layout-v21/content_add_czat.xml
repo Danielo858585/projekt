@@ -89,11 +89,20 @@
         <!--android:layout_marginTop="20dp" />-->
 
     <TextView
-        android:text="Koordynaty centrum czatu"
+        android:text="Longitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_addNewChatPosition"
-        android:textAlignment="center" />
+        android:id="@+id/tv_addNewChatLongitude"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:text="Latitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_addNewChatLatitude"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp" />
 
     <Button
         android:text="Zaakceptuj wybór"

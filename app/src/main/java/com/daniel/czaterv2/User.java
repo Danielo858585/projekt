@@ -14,7 +14,9 @@ public class User {
     public User(){}
 
     public User(UserAnonymous userAnonymous) {
+
         name = userAnonymous.getName();
+        token = userAnonymous.getToken();
     }
 
     public User(String login, String password){

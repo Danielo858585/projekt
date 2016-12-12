@@ -74,7 +74,7 @@ public class CzatListActivity extends Activity {
         listItem.add(czat2.getName());
         listItem.add(czat3.getName());
 
-        czat_list.setAdapter(new ArrayAdapter<String>(this,R.layout.my_simple_list_view,listItem));
+        czat_list.setAdapter(new ArrayAdapter<String>(this, R.layout.my_simple_list_view, listItem));
         czat_list_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,46 +87,41 @@ public class CzatListActivity extends Activity {
                 addCzatOnClick();
             }
         });
+        getAnonymousUserName();
 
-        if(App.getInstance().getUser()==null){
-            getAnonymousUserName();
 
-        }
-        else{
-            et_user_name.setText(App.getInstance().getUser().getLogin().toString());
-        }
     }
 
     private void addCzatOnClick() {
-        Intent intent = new Intent(this,AddCzatActivity.class);
+        Intent intent = new Intent(this, AddCzatActivity.class);
         startActivity(intent);
     }
 
     // // // // // // // ZATWIERDZENIE WYBRANEGO CZATU
-    private void button_on_click(){
+    private void button_on_click() {
         User user = new User(et_user_name.getText().toString());
-        Intent intent = new Intent(this,CzatActivity.class);
+        Intent intent = new Intent(this, CzatActivity.class);
         String message = et_user_name.getText().toString();
         intent.putExtra("message", message);
         startActivity(intent);
     }
     // ** ** ** ** ** ** ** ** ** ** ** **
 
-    String randomString( int len ){
-        StringBuilder sb = new StringBuilder( len );
-        for( int i = 0; i < len; i++ )
-            sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+    String randomString(int len) {
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++)
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
         return sb.toString();
     }
 
-    private void getMacAdress(){
+    private void getMacAdress() {
         // POBRANIE ADRESU MAC URZĄDZENIA
         WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         macAddress = info.getMacAddress();
     }
 
-    private void buildRetrofit(){
+    private void buildRetrofit() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -142,7 +137,7 @@ public class CzatListActivity extends Activity {
         webService = retrofit.create(WebService.class);
     }
 
-    private void getAnonymousUserName(){
+    private void getAnonymousUserName() {
         buildRetrofit();
         getMacAdress();
 
@@ -155,10 +150,11 @@ public class CzatListActivity extends Activity {
                     Log.d("MainActivity", "ON RESPONSE");
                     Log.d("MainActivityResponse", response.toString());
                     userAnonymous1 = response.body();
-                    App.getInstance().setUserAnonymous(userAnonymous1);
-                    et_user_name.setText(userAnonymous1.name);
+                    User user = new User(userAnonymous1);
+                    App.getInstance().setUser(user);
                     Log.d("UserAnonymous name", userAnonymous1.name);
                     Log.d("UserAnonymous token", userAnonymous1.token);
+                    et_user_name.setText(App.getInstance().getUser().getName().toString());
                 }
 
                 @Override

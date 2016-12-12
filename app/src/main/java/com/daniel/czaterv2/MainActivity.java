@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (App.getInstance().getUser() == null) {
             start.setText("Rozpocznij jako anonimowy");
         } else {
-            String username = App.getInstance().getUser().getLogin();
+            String username = App.getInstance().getUser().getName();
             start.setText("Rozpocznij jako " + username);
         }
     }

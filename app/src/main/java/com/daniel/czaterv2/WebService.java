@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface WebService {
@@ -11,14 +12,15 @@ public interface WebService {
     @POST("/puszek/register")
     Call<Void> createUser(@Body UserRegistry userRegistry);
 
-    @POST("/puszek/anonymousLogin")
+    @POST("/puszek/loginAnonymous")
     Call<UserAnonymous> userAnonymous (@Body AnonymousSend anonymousSend);
 
     @POST("/puszek/login")
     Call<UserLoginResponse> userLogin (@Body UserLoginRequest userLoginRequest);
 
+    @Headers("token:lingeringField-102eb2d51e27431ea9f8e695f85a3573")
     @POST("/puszek/addChat")
-    Call<AddCzatResponse> addCzatResponseCall (@Body AddCzatRequest AddCzatRequest);
+    Call<AddCzatResponse> addCzat (@Body AddCzatRequest AddCzatRequest);
 
     @POST("/puszek/getChatList")
     Call <List<ChatId>> getChatList (@Body GetChatList getChatList);
