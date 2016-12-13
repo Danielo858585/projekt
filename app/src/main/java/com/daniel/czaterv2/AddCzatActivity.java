@@ -37,7 +37,11 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -166,10 +170,23 @@ public class AddCzatActivity extends Activity implements GoogleApiClient.Connect
                     addCzatRequest.setMaxUsers(maxUsersInt);
                     addCzatRequest.setLongitude(longitude);
                     addCzatRequest.setLatitude(latitude);
+                    final String headerInfo = App.getInstance().getUser().getToken();
 
                     HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
                     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
                     OkHttpClient client = new OkHttpClient.Builder()
+                            .addInterceptor(new Interceptor() {
+                                @Override
+                                public okhttp3.Response intercept(Chain chain) throws IOException {
+                                    Request request = chain.request();
+                                    request = request.newBuilder()
+                                            .addHeader("token", headerInfo)
+                                            .build();
+                                    okhttp3.Response response = chain.proceed(request);
+                                    return response;
+                                }
+                            })
                             .addInterceptor(interceptor)
 
 //                    {
