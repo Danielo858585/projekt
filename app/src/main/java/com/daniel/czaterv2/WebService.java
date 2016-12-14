@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface WebService {
@@ -20,8 +21,9 @@ public interface WebService {
     @POST("/puszek/addChat")
     Call<AddCzatResponse> addCzat (@Body AddCzatRequest AddCzatRequest);
 
-    @POST("/puszek/getChatList")
-    Call <List<ChatId>> getChatList (@Body GetChatList getChatList);
+    @GET("/puszek/getChatList")
+    Call <List<CzatListResponse>> getChatList (@Body CzatListRequest czatListRequest);
+
 
 }
 

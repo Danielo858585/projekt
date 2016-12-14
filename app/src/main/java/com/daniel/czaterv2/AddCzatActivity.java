@@ -188,19 +188,6 @@ public class AddCzatActivity extends Activity implements GoogleApiClient.Connect
                                 }
                             })
                             .addInterceptor(interceptor)
-
-//                    {
-//                        @Override
-//                        public okhttp3.Response intercept(Chain chain) throws IOException {
-//                            Request request = chain.request();
-//                            request = request.newBuilder()
-//                                    .addHeader("/token",App.getInstance().getUser().getToken().toString())
-//                                    .build();
-//                            okhttp3.Response response = chain.proceed(request);
-//                            Log.d("AddCzatActivity", App.getInstance().getUser().getToken().toString());
-//                            return response;
-//                        }
-//                    }
                             .build();
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(App.getSendURL())
@@ -212,18 +199,23 @@ public class AddCzatActivity extends Activity implements GoogleApiClient.Connect
                     call.enqueue(new Callback<AddCzatResponse>() {
                         @Override
                         public void onResponse(Call<AddCzatResponse> call, Response<AddCzatResponse> response) {
-                            Log.d("AddCzatActivity",response.toString());
+                            Log.d("AddCzatActivity", response.toString());
+                            Toast toast = Toast.makeText(getApplicationContext(),"Czat został pomyślnie dodany",Toast.LENGTH_LONG);
+                            toast.show();
+
                         }
 
                         @Override
                         public void onFailure(Call<AddCzatResponse> call, Throwable t) {
 
                         }
+
                     });
 
                 }
             }
         });
+        intent = new Intent(this,CzatListActivity.class);
     }
 
     @Override
@@ -255,8 +247,8 @@ public class AddCzatActivity extends Activity implements GoogleApiClient.Connect
         if (mLastLocation != null) {
             latitude = mLastLocation.getLatitude();
             longitude = mLastLocation.getLongitude();
-            czatPositionLongitude.setText("Longitude - " + String.valueOf(longitude));
-            czatPositionLatitude.setText("Latitude - " + String.valueOf(latitude));
+            czatPositionLongitude.setText("Longitude: " + String.valueOf(longitude));
+            czatPositionLatitude.setText("Latitude: " + String.valueOf(latitude));
 
         } else {
             Log.d("Else w OnConnected", "Ostatnia znana jest nie znana. ");

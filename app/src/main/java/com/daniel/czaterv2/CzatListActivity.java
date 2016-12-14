@@ -3,19 +3,42 @@ package com.daniel.czaterv2;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -26,7 +49,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CzatListActivity extends Activity {
+public class CzatListActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private String macAddress;
@@ -38,11 +61,15 @@ public class CzatListActivity extends Activity {
     private Button sprawdz;
     private Button addCzat;
     private User user;
-    private CzatProperties czat1;
-    private CzatProperties czat2;
-    private CzatProperties czat3;
     private WebService webService;
     private UserAnonymous userAnonymous1;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private CzatListResponse czatListResponse;
+    private double latitude, longitude;
+    private List listChats;
+    private ArrayList arrayList;
+    protected static final int REQUEST_CHECK_SETTINGS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,27 +81,19 @@ public class CzatListActivity extends Activity {
         czat_list = (ListView) findViewById(R.id.lv_czat_list);
         czat_list_accept = (Button) findViewById(R.id.btn_accept_czat_list);
         addCzat = (Button) findViewById(R.id.btn_addCzat);
-        czat1 = new CzatProperties();
-        czat1.setName("Czat 1");
-        czat1.setRange(5000);
-        czat1.setMaxUsers(10);
+        getAnonymousUserName();
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient
+                    .Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .addApi(AppIndex.API)
+                    .build();
+        }
+        createLocationRequest();
 
-        czat2 = new CzatProperties();
-        czat2.setName("Czat 2");
-        czat2.setRange(10000);
-        czat2.setMaxUsers(10);
 
-        czat3 = new CzatProperties();
-        czat3.setName("Czat 3");
-        czat3.setRange(15000);
-        czat3.setMaxUsers(10);
-
-        ArrayList<String> listItem = new ArrayList<String>();
-        listItem.add(czat1.getName());
-        listItem.add(czat2.getName());
-        listItem.add(czat3.getName());
-
-        czat_list.setAdapter(new ArrayAdapter<String>(this, R.layout.my_simple_list_view, listItem));
         czat_list_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +106,7 @@ public class CzatListActivity extends Activity {
                 addCzatOnClick();
             }
         });
-        getAnonymousUserName();
+
 
 
     }
@@ -130,7 +149,7 @@ public class CzatListActivity extends Activity {
                 .addInterceptor(logging)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")
+                .baseUrl(App.getSendURL())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -172,4 +191,163 @@ public class CzatListActivity extends Activity {
         }
     }
 
+    private void getCzatList() {
+        buildRetrofit();
+        Call<List<CzatListResponse>> getCzatList = webService.getChatList(new CzatListRequest(latitude, longitude));
+        getCzatList.enqueue(new Callback<List<CzatListResponse>>() {
+            @Override
+            public void onResponse(Call<List<CzatListResponse>> call, Response<List<CzatListResponse>> response) {
+                listChats = response.body();
+                for (int i = 0; i <= listChats.size(); i++) {
+                    arrayList.add(listChats.get(i));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CzatListResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    protected void addExampleChats() {
+        CzatProperties czat1;
+        CzatProperties czat2;
+        CzatProperties czat3;
+
+        czat1 = new CzatProperties();
+        czat1.setName("Czat 1");
+        czat1.setRange(5000);
+        czat1.setMaxUsers(10);
+
+        czat2 = new CzatProperties();
+        czat2.setName("Czat 2");
+        czat2.setRange(10000);
+        czat2.setMaxUsers(10);
+
+        czat3 = new CzatProperties();
+        czat3.setName("Czat 3");
+        czat3.setRange(15000);
+        czat3.setMaxUsers(10);
+    }
+
+    protected void createLocationRequest() {
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(7000);
+        locationRequest.setFastestInterval(3500);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        final PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
+                final Status status = locationSettingsResult.getStatus();
+                final LocationSettingsStates locationSettingsStates = locationSettingsResult.getLocationSettingsStates();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            // Show the dialog by calling startResolutionForResult(),
+                            // and check the result in onActivityResult().
+                            status.startResolutionForResult(CzatListActivity.this, REQUEST_CHECK_SETTINGS);
+                        } catch (IntentSender.SendIntentException e) {
+                            Log.e("CATCH", e.toString());
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        googleApiClient.connect();
+        super.onStart();
+        checkPermision();
+        getCzatList();
+        AppIndex.AppIndexApi.start(googleApiClient, getIndexApiAction());
+    }
+
+    @Override
+    protected void onStop() {
+        googleApiClient.disconnect();
+        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(googleApiClient, getIndexApiAction());
+    }
+
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    public void checkPermision() {
+        int checkPermissionLocalizationFine = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int checkPermissionLocalizationCoarse = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (checkPermissionLocalizationFine != 0) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 777);
+            }
+        }
+        if (checkPermissionLocalizationCoarse != 0) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 666);
+            }
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Log.d("AddCzatActivity", "Metoda onConnected - GAC");
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                googleApiClient);
+        if (mLastLocation != null) {
+            latitude = mLastLocation.getLatitude();
+            longitude = mLastLocation.getLongitude();
+
+        } else {
+            Log.d("Else w OnConnected", "Ostatnia znana jest nie znana. ");
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
