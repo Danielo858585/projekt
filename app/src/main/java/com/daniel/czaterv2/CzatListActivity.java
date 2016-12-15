@@ -16,10 +16,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -67,7 +69,7 @@ public class CzatListActivity extends Activity implements GoogleApiClient.Connec
     private LocationRequest locationRequest;
     private CzatListResponse czatListResponse;
     private double latitude, longitude;
-    private List listChats;
+    private List<CzatListResponse> listChats;
     private ArrayList arrayList;
     protected static final int REQUEST_CHECK_SETTINGS = 1;
 
@@ -94,6 +96,7 @@ public class CzatListActivity extends Activity implements GoogleApiClient.Connec
         createLocationRequest();
 
 
+
         czat_list_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,9 +109,6 @@ public class CzatListActivity extends Activity implements GoogleApiClient.Connec
                 addCzatOnClick();
             }
         });
-
-
-
     }
 
     private void addCzatOnClick() {
@@ -166,8 +166,8 @@ public class CzatListActivity extends Activity implements GoogleApiClient.Connec
             userAnonymous.enqueue(new Callback<UserAnonymous>() {
                 @Override
                 public void onResponse(Call<UserAnonymous> call, Response<UserAnonymous> response) {
-                    Log.d("MainActivity", "ON RESPONSE");
-                    Log.d("MainActivityResponse", response.toString());
+                    Log.d("CzatListActivity", "ON RESPONSE");
+                    Log.d("CzatListActivity", response.toString());
                     userAnonymous1 = response.body();
                     User user = new User(userAnonymous1);
                     App.getInstance().setUser(user);
@@ -198,10 +198,9 @@ public class CzatListActivity extends Activity implements GoogleApiClient.Connec
             @Override
             public void onResponse(Call<List<CzatListResponse>> call, Response<List<CzatListResponse>> response) {
                 listChats = response.body();
-                for (int i = 0; i <= listChats.size(); i++) {
-                    arrayList.add(listChats.get(i));
-                }
-
+                arrayList.addAll(listChats);
+                ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(),R.layout.my_simple_list_view,arrayList);
+                czat_list.setAdapter(arrayAdapter);
             }
 
             @Override
@@ -209,6 +208,8 @@ public class CzatListActivity extends Activity implements GoogleApiClient.Connec
 
             }
         });
+//        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,arrayList.);
+//        czat_list.setAdapter(arrayAdapter);
     }
 
     protected void addExampleChats() {
@@ -275,6 +276,8 @@ public class CzatListActivity extends Activity implements GoogleApiClient.Connec
         super.onStart();
         checkPermision();
         getCzatList();
+//        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(),R.layout.my_simple_list_view,arrayList);
+//        czat_list.setAdapter(arrayAdapter);
         AppIndex.AppIndexApi.start(googleApiClient, getIndexApiAction());
     }
 
@@ -335,6 +338,9 @@ public class CzatListActivity extends Activity implements GoogleApiClient.Connec
         if (mLastLocation != null) {
             latitude = mLastLocation.getLatitude();
             longitude = mLastLocation.getLongitude();
+            Toast toast = Toast.makeText(getApplicationContext(),"Longitude: " + String.valueOf(longitude),Toast.LENGTH_LONG);
+            Toast toast2 = Toast.makeText(getApplicationContext(),"Latitude: " + String.valueOf(latitude),Toast.LENGTH_LONG);
+
 
         } else {
             Log.d("Else w OnConnected", "Ostatnia znana jest nie znana. ");
