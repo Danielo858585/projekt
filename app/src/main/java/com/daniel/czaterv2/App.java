@@ -8,7 +8,7 @@ public class App extends Application {
 
     private static App instance;
 
-    private static final String sendURL = "http://192.168.0.2:8080";
+    private static String sendURL;
 
     private User user;
 
@@ -60,6 +60,8 @@ public class App extends Application {
         super.onCreate();
         applicationHandler = new Handler(getInstance().getMainLooper());
         NativeLoader.initNativeLibs(App.getInstance());
+
+        sendURL = getResources().getString(R.string.IPSend);
     }
 
 

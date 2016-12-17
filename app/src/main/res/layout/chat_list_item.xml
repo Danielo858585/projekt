@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/background_light">
+
+    <TextView
+        style="@style/LabelText.Medium"
+        android:id="@+id/chat_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Nazwa chatu"/>
+
+    <TextView
+        style="@style/LabelText.Small"
+        android:id="@+id/chat_user_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Liczba użytkowników"/>
+
+    <TextView
+        style="@style/LabelText.Small"
+        android:id="@+id/tv_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Dystans"/>
+
+</LinearLayout>

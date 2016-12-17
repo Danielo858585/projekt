@@ -4,7 +4,7 @@ package com.daniel.czaterv2;
  * Created by Daniel on 13.12.2016.
  */
 
-public class CzatListResponse {
+public class CzatListResponseDetails {
     String id;
     double latitude;
     double longitude;
@@ -12,7 +12,7 @@ public class CzatListResponse {
     String name;
     int rangeInMeters;
 
-    public CzatListResponse(String id, double latitude, double longitude, int maxUsersNumber, String name, int rangeInMeters) {
+    public CzatListResponseDetails(String id, String name, double latitude, double longitude, int rangeInMeters, int maxUsersNumber) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;

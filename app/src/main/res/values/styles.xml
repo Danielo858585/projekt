@@ -35,4 +35,20 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="Container">
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="LabelText">
+        <item name="android:color">@color/black</item>
+    </style>
+
+    <style name="LabelText.Medium">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="LabelText.Small">
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>

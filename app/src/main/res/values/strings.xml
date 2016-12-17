@@ -33,7 +33,7 @@
     <string name="title_activity_maps3">Map</string>
     <string name="type_your_message">Enter msg</string>
     <string name="NoRecent">No recent</string>
-    <string name="IPSend">http://192.168.0.2:8080/</string>
+    <string name="IPSend">http://192.168.43.213:8080/</string>
     <string name="registryInfo">Po zarejestrowaniu otrzymasz link aktywacyjny na podany adres e-mail.
                                 Po jego kliknięciu możliwe będzie logowanie. </string>
     <string name="loginInfo">Po zalogowaniu będziesz mógł czatować pod wybraną przez siebie nazwą.

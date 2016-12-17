@@ -1,7 +1,5 @@
 package com.daniel.czaterv2;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -21,7 +19,7 @@ public interface WebService {
     Call<AddCzatResponse> addCzat (@Body AddCzatRequest AddCzatRequest);
 
     @POST("/puszek/getChatList")
-    Call <List<CzatListResponse>> getChatList (@Body CzatListRequest czatListRequest);
+    Call <Chats> getChatList (@Body CzatListRequest czatListRequest);
 
 
 }
