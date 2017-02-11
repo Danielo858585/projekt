@@ -33,14 +33,18 @@
     <string name="title_activity_maps3">Map</string>
     <string name="type_your_message">Enter msg</string>
     <string name="NoRecent">No recent</string>
-    <string name="IPSend">http://192.168.43.213:8080/</string>
+    <string name="IPSend">http://138.68.77.240:8080/</string>
+    <string name="endpoint">/puszek</string>
     <string name="registryInfo">Po zarejestrowaniu otrzymasz link aktywacyjny na podany adres e-mail.
                                 Po jego kliknięciu możliwe będzie logowanie. </string>
-    <string name="loginInfo">Po zalogowaniu będziesz mógł czatować pod wybraną przez siebie nazwą.
-                            Będziesz też mógł ją zmienić.
-                            Brak logowania spowoduje wygenerowanie losowej nazwy</string>
+    <string name="loginInfo">Po zalogowaniu będziesz mógł czatować pod wybraną przez siebie nazwą. Będziesz też mógł ją zmienić. Brak logowania spowoduje wygenerowanie losowej nazwy</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
+    <string name="welcomeMessage">"Witaj w aplikacji Czater. Możesz pisać jako anonimowy użytkownik i wówczas zostanie nadany Ci losowy login, który będziesz mógł zmienić. Możesz też się zarejestrować i mieć na stałe przypisay login. Udanych konwersacji"</string>
+    <string name="btn_back">powrót</string>
+    <string name="btn_registry">Zarejestruj</string>
+    <string name="getPassword">Wprowadź hasło</string>
+    <string name="getEmail">Podaj adres email</string>
 </resources>

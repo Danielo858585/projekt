@@ -8,16 +8,24 @@ public class ChatMessage {
     private String messageText;
     private UserType userType;
     private Status messageStatus;
+    private String messageTime;
+    private String author;
 
-    public long getMessageTime() {
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getMessageTime() {
         return messageTime;
     }
 
-    public void setMessageTime(long messageTime) {
+    public void setMessageTime(String messageTime) {
         this.messageTime = messageTime;
     }
-
-    private long messageTime;
 
     public void setMessageText(String messageText) {
         this.messageText = messageText;

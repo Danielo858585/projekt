@@ -1,6 +1,7 @@
 package com.daniel.czaterv2;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,16 +104,22 @@ public class LoginActivity extends Activity {
         });
     }
 
-
-
     private void checkdata() {
         dataComplete = false;
         if (login.getText().toString().length() <= 0) {
-            Toast tost = Toast.makeText(getApplicationContext(), "Wprowadz login", Toast.LENGTH_SHORT);
-            tost.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Wprowadz login!").setTitle("Brak loginu");
+            AlertDialog dialog = builder.create();
+            dialog.show();
+//            Toast tost = Toast.makeText(getApplicationContext(), "Wprowadz login", Toast.LENGTH_SHORT);
+//            tost.show();
         } else if (pass.getText().toString().length() <= 0) {
-            Toast tost = Toast.makeText(getApplicationContext(), "Wprowadz hasło", Toast.LENGTH_SHORT);
-            tost.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Wprowadz hasło!").setTitle("Brak hasła");
+            AlertDialog dialog = builder.create();
+            dialog.show();
+//            Toast tost = Toast.makeText(getApplicationContext(), "Wprowadz hasło", Toast.LENGTH_SHORT);
+//            tost.show();
         } else {
             dataComplete = true;
         }

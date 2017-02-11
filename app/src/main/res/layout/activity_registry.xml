@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Container"
     android:id="@+id/activity_registry"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,21 +9,6 @@
     android:baselineAligned="false"
     android:background="@android:color/background_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="0dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:id="@+id/tv_registryUserName"
@@ -44,7 +30,7 @@
         android:id="@+id/tv_registryUserEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Podaj adres email"
+        android:text="@string/getEmail"
         android:textSize="14sp"
 
         android:gravity="center_vertical|center_horizontal" />
@@ -60,7 +46,7 @@
         android:id="@+id/tv_registryUserPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wprowadź hasło"
+        android:text="@string/getPassword"
         android:textSize="14sp"
 
         android:gravity="center_vertical|center_horizontal" />
@@ -69,14 +55,13 @@
         android:id="@+id/et_registryUserPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textVisiblePassword"
-        />
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btn_registryRegistry"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Zarejestruj"
+        android:text="@string/btn_registry"
         android:background="@color/buttonColor"
         android:layout_marginTop="15dp" />
 
@@ -84,16 +69,10 @@
         android:id="@+id/btn_backFromRegistry"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btn_registryRegistry"
         android:layout_marginTop="30dp"
         android:background="@color/buttonColor"
         android:clickable="false"
-        android:elevation="0dp"
-        android:text="powrót" />
+        android:text="@string/btn_back" />
 
     <TextView
         android:text="@string/registryInfo"
@@ -104,5 +83,4 @@
         android:gravity="left"
         android:textAlignment="center"
         android:textAllCaps="false" />
-
 </LinearLayout>

@@ -11,5 +11,14 @@
     <color name="transparent">@android:color/transparent</color>
     <color name="orange">@android:color/holo_blue_light</color>
     <color name="background_tab_pressed">#6633B5E5</color>
-    <color name="black">#000</color>
+    <color name="black">#ff000000</color>
+    <color name="red">#993300</color>
+    <color name="red_dark">#6b2300</color>
+    <color name="green">#99CC99</color>
+    <color name="green_dark">#6b8e6b</color>
+    <color name="blue">#303F9F</color>
+    <color name="blue_dark">#003366</color>
+
+
+
 </resources>

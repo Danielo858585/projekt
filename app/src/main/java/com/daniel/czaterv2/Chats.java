@@ -9,7 +9,6 @@ import java.util.List;
 public class Chats {
     private List<CzatListResponseDetails> chats = new ArrayList<>();
 
-
     public List<CzatListResponseDetails> getChats() {
         return chats;
     }

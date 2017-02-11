@@ -1,116 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@android:color/background_light"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.daniel.czaterv2.MainActivity"
-    tools:showIn="@layout/activity_main">
-
-    <!--
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/autor"
-        android:id="@+id/tv_main_autors"
-        android:layout_marginBottom="38dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    -->
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context="com.daniel.czaterv2.MainActivity"
+                tools:showIn="@layout/activity_main">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
         android:id="@+id/tv_gpsinfo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:visibility="invisible" />
-
-    <!--<Button-->
-        <!--style="?android:attr/buttonStyleSmall"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Mapa"-->
-        <!--android:id="@+id/btn_map"-->
-        <!--android:layout_marginBottom="60dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:layout_marginEnd="10dp"-->
-        <!--android:background="@color/buttonColor"/>-->
-
-    <TextView
-        android:text="Longitude"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_longitude"
-        android:layout_marginBottom="79dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="Latitude"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_latitude"
-        android:layout_above="@+id/tv_longitude"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Zarejestruj"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:id="@+id/btn_registry"
-        android:layout_marginTop="12dp"
-        android:background="@color/buttonColor"
-        android:layout_below="@+id/btn_login"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
+        style="@style/LabelText"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:text="@string/gpsenabled"
-        android:id="@+id/btn_main_gps_enabled"
-        android:background="@color/buttonColor"
-        android:layout_alignTop="@+id/tv_latitude"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true"
+        android:text="New Text"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/text_info_title"
+        style="@style/LabelText.Big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Witaj!"/>
+
+    <TextView
+        android:id="@+id/text_info_describe"
+        style="@style/LabelText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_info_title"
+        android:layout_marginTop="@dimen/small_margin"
+        android:gravity="center"
+        android:text="@string/welcomeMessage"/>
 
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:text="@string/rozpocznij"
         android:id="@+id/btn_main_start"
-        android:background="@color/buttonColor"
-        android:layout_below="@+id/tv_gpsinfo"
+        style="@style/Button.Red"
+        android:layout_width="match_parent"
+        android:layout_below="@id/text_info_describe"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:text="@string/rozpocznij"/>
+
+    <Button
+        android:id="@+id/btn_login"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_below="@id/btn_main_start"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="Zaloguj"/>
+
+    <Button
+        android:id="@+id/btn_registry"
+        style="@style/Button.Green"
+        android:layout_width="match_parent"
+        android:layout_below="@id/btn_login"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="Zarejestruj"/>
+
+
+    <TextView
+        android:id="@+id/tv_longitude"
+        style="@style/LabelText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="34dp" />
+        android:layout_marginBottom="80dp"
+        android:text="Longitude"/>
+
+    <TextView
+        android:id="@+id/tv_latitude"
+        style="@style/LabelText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_longitude"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Latitude"/>
 
     <Button
-        android:text="Zaloguj"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:id="@+id/btn_login"
-        android:background="@color/buttonColor"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/btn_main_start"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/btn_main_gps_enabled"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/tv_latitude"
+        android:layout_marginBottom="80dp"
+        android:text="@string/gpsenabled"/>
 
+    <Button
+        android:id="@+id/btn_info"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp"
+        android:text="info"/>
 </RelativeLayout>

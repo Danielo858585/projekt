@@ -6,6 +6,8 @@ import retrofit2.http.POST;
 
 public interface WebService {
 
+
+
     @POST("/puszek/register")
     Call<Void> createUser(@Body UserRegistry userRegistry);
 
@@ -20,6 +22,11 @@ public interface WebService {
 
     @POST("/puszek/getChatList")
     Call <Chats> getChatList (@Body CzatListRequest czatListRequest);
+
+    @POST("/puszek/api/getChatDetails")
+    Call <ChatDetailsResponse> getChatDetails (@Body ChatDetailsRequest chatDetailsRequest);
+
+
 
 
 }

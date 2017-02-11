@@ -1,11 +1,14 @@
 package com.daniel.czaterv2;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,92 +17,54 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.daniel.czaterv2.model.ChatMessage;
-import com.daniel.czaterv2.model.Status;
 import com.daniel.czaterv2.model.UserType;
 import com.daniel.czaterv2.widgets.EmojiView;
 import com.daniel.czaterv2.widgets.SizeNotifierRelativeLayout;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.gms.common.internal.zzh;
 
+import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import ua.naiksoftware.stomp.client.StompClient;
 
-public class CzatActivity extends ActionBarActivity implements SizeNotifierRelativeLayout.SizeNotifierRelativeLayoutDelegate, NotificationCenter.NotificationCenterDelegate {
+public class CzatActivity extends AppCompatActivity implements SizeNotifierRelativeLayout.SizeNotifierRelativeLayoutDelegate, NotificationCenter.NotificationCenterDelegate {
 
-    private ListView chatListView;
-    private EditText chatEditText1;
-    private ArrayList<ChatMessage> chatMessages;
-    private ImageView enterChatView1, emojiButton;
-    private ChatListAdapter listAdapter;
+    private static final String TAG = "CzatActivity";
+    private ChatAdapter listAdapter;
     private EmojiView emojiView;
     private SizeNotifierRelativeLayout sizeNotifierRelativeLayout;
     private boolean showingEmoji;
     private int keyboardHeight;
     private boolean keyboardVisible;
     private WindowManager.LayoutParams windowLayoutParams;
-
-
-    private EditText.OnKeyListener keyListener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-            // If the event is a key-down event on the "enter" button
-            if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                    (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                // Perform action on key press
-
-                EditText editText = (EditText) v;
-
-                if(v==chatEditText1)
-                {
-                    sendMessage(editText.getText().toString(), UserType.OTHER);
-                }
-
-                chatEditText1.setText("");
-
-                return true;
-            }
-            return false;
-
-        }
-    };
-
-    private ImageView.OnClickListener clickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            if(v==enterChatView1) {
-                sendMessage(chatEditText1.getText().toString(), UserType.OTHER);
-            }
-            chatEditText1.setText("");
-        }
-    };
-
-    private final TextWatcher watcher1 = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            if (chatEditText1.getText().toString().equals("")) {
-
-            } else {
-                enterChatView1.setImageResource(R.drawable.ic_chat_send);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-            if(editable.length()==0){
-                enterChatView1.setImageResource(R.drawable.ic_chat_send);
-            }else{
-                enterChatView1.setImageResource(R.drawable.ic_chat_send_active);
-            }
-        }
-    };
+    private ListView chatListView;      //Lista wiadomości
+    private EditText chatEditText1;
+    private ArrayList<ChatMessage> chatMessages;
+    private ImageView enterChatView1, emojiButton;
+    private StompClient mStompClient;
+    private ObjectMapper objectMapper = new ObjectMapper();
+    private WebService webService;
+    private Intent intent;
+    MqttAndroidClient client;
+    String id;
+    String topic;
 
 
     @Override
@@ -107,238 +72,155 @@ public class CzatActivity extends ActionBarActivity implements SizeNotifierRelat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_czat);
 
-        AndroidUtilities.statusBarHeight = getStatusBarHeight();
 
         chatMessages = new ArrayList<>();
         chatListView = (ListView) findViewById(R.id.chat_list_view);
         chatEditText1 = (EditText) findViewById(R.id.chat_edit_text1);
         enterChatView1 = (ImageView) findViewById(R.id.enter_chat1);
-
-        // Hide the emoji on click of edit text
-//        chatEditText1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (showingEmoji)
-//                    hideEmojiPopup();
-//            }
-//        });
-//
-//
-//        emojiButton = (ImageView)findViewById(R.id.emojiButton);
-//
-//        emojiButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showEmojiPopup(!showingEmoji);
-//            }
-//        });
-
-        listAdapter = new ChatListAdapter(chatMessages, this);
+        listAdapter = new ChatAdapter(chatMessages, this);
         chatListView.setAdapter(listAdapter);
         chatEditText1.setOnKeyListener(keyListener);
         enterChatView1.setOnClickListener(clickListener);
         chatEditText1.addTextChangedListener(watcher1);
         sizeNotifierRelativeLayout = (SizeNotifierRelativeLayout) findViewById(R.id.chat_layout);
         sizeNotifierRelativeLayout.delegate = this;
+        intent = getIntent();
+        id = intent.getStringExtra("id");
+        topic = "chatRequest/" + id;
+        buildRetrofit();
 
-        NotificationCenter.getInstance().addObserver(this, NotificationCenter.emojiDidLoaded);
-    }
+        String clientId = MqttClient.generateClientId();
+        client = new MqttAndroidClient(this.getApplicationContext(), "tcp://138.68.77.240:1883", clientId);
+        try {
+            IMqttToken token = client.connect();
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) {
+                }
 
-    private void sendMessage(final String messageText, final UserType userType)
-    {
-        if(messageText.trim().length()==0)
-            return;
-
-        final ChatMessage message = new ChatMessage();
-        message.setMessageStatus(Status.SENT);
-        message.setMessageText(messageText);
-        message.setUserType(userType);
-        message.setMessageTime(new Date().getTime());
-        chatMessages.add(message);
-
-        if(listAdapter!=null)
-            listAdapter.notifyDataSetChanged();
-
-        // Mark message as delivered after one second
-
-        final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
-
-        exec.schedule(new Runnable(){
-            @Override
-            public void run(){
-                message.setMessageStatus(Status.DELIVERED);
-
-                final ChatMessage message = new ChatMessage();
-                message.setMessageStatus(Status.SENT);
-                message.setMessageText(messageText);
-                message.setUserType(UserType.SELF);
-                message.setMessageTime(new Date().getTime());
-                chatMessages.add(message);
-
-                CzatActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        listAdapter.notifyDataSetChanged();
+                @Override
+                public void messageArrived(String topic, MqttMessage message) throws Exception {
+                    Log.d(TAG, new String(message.getPayload(), "UTF-8"));
+                    MessageResponse response = objectMapper.readValue(message.getPayload(), MessageResponse.class);
+                    ChatMessage chatMessage = new ChatMessage();
+                    chatMessage.setMessageText(response.getTextMessage());
+                    if (response.getAuthor().equals(App.getInstance().getUser().getName())) {
+                        chatMessage.setUserType(UserType.SELF);
+                    } else {
+                        chatMessage.setUserType(UserType.OTHER);
                     }
-                });
+                    chatMessage.setAuthor(response.getAuthor());
+                    chatMessage.setMessageTime(response.getTime());
+                    chatMessages.add(chatMessage);
 
+                    CzatActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            listAdapter.notifyDataSetChanged();
+                            scrollMyListViewToBottom();
+                        }
+                    });
+                }
 
-            }
-        }, 1, TimeUnit.SECONDS);
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+                }
+            });
 
+            token.setActionCallback(new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    // We are connected
+                    Log.d(TAG, "onSuccess - MQTT");
+                    int qos = 1;
+                    topic = "chatResponse/" + id;
+                    try {
+                        client.subscribe(topic, qos);
+                    } catch (MqttException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    // Something went wrong e.g. connection timeout or firewall problems
+                    Log.d(TAG, "onFailure - MQTT");
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+
+//        NotificationCenter.getInstance().addObserver(this, NotificationCenter.emojiDidLoaded);
+//        Call<ChatDetailsResponse> call = webService.getChatDetails(new ChatDetailsRequest(id));
+//        call.enqueue(new Callback<ChatDetailsResponse>() {
+//            @Override
+//            public void onResponse(Call<ChatDetailsResponse> call, Response<ChatDetailsResponse> response) {
+//                Log.d("CzatActivity", "onResponse - getChatDetails");
+//                try {
+//                    for (MessageResponse messageResponse : response.body().getMessagesList()) {
+//                        final ChatMessage message = new ChatMessage();
+//                        message.setMessageStatus(Status.SENT);
+//                        message.setAuthor(messageResponse.getAuthor());
+//                        message.setMessageText(messageResponse.getTextMessage());
+//                        message.setMessageTime(message.getMessageTime());
+//                        chatMessages.add(message);
+//                    }
+//                } catch (Exception e) {
+//                    Log.d("Exception", e.toString());
+//                }
+//
+//                listAdapter.notifyDataSetChanged();
+//                scrollMyListViewToBottom();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ChatDetailsResponse> call, Throwable t) {
+//                Log.d("CzatActivity", "onFailure - getChatDetails");
+//            }
+//        });
     }
 
-    private Activity getActivity()
-    {
+    private void sendMessage(final String messageText, final UserType userType) {
+        String topic = "chatRequest/" + id;
+        JSONObject messageJson = createMessage(messageText);
+        String payload = messageJson.toString();
+        byte[] encodedPayload = new byte[0];
+        try {
+            encodedPayload = payload.getBytes("UTF-8");
+            MqttMessage message = new MqttMessage(encodedPayload);
+            client.publish(topic, message);
+        } catch (UnsupportedEncodingException | MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JSONObject createMessage(String messageText) {
+        JSONObject message = new JSONObject();
+        try {
+            message.put("author", App.getInstance().getUser().getName());
+            message.put("textMessage", messageText);
+            message.put("tokenContent", App.getInstance().getUser().getToken());
+            return message;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void scrollMyListViewToBottom() {
+        chatListView.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                chatListView.setSelection(listAdapter.getCount() - 1);
+            }
+        });
+    }
+
+    private Activity getActivity() {
         return this;
     }
 
-
-    /**
-     * Show or hide the emoji popup
-     *
-     * @param show
-     */
-//    private void showEmojiPopup(boolean show) {
-//        showingEmoji = show;
-//
-//        if (show) {
-//            if (emojiView == null) {
-//                if (getActivity() == null) {
-//                    return;
-//                }
-//                emojiView = new EmojiView(getActivity());
-//
-//                emojiView.setListener(new EmojiView.Listener() {
-//                    public void onBackspace() {
-//                        chatEditText1.dispatchKeyEvent(new KeyEvent(0, 67));
-//                    }
-//
-//                    public void onEmojiSelected(String symbol) {
-//                        int i = chatEditText1.getSelectionEnd();
-//                        if (i < 0) {
-//                            i = 0;
-//                        }
-//                        try {
-//                            CharSequence localCharSequence = Emoji.replaceEmoji(symbol, chatEditText1.getPaint().getFontMetricsInt(), AndroidUtilities.dp(20));
-//                            chatEditText1.setText(chatEditText1.getText().insert(i, localCharSequence));
-//                            int j = i + localCharSequence.length();
-//                            chatEditText1.setSelection(j, j);
-//                        } catch (Exception e) {
-//                            Log.e(Constants.TAG, "Error showing emoji");
-//                        }
-//                    }
-//                });
-//
-//
-//                windowLayoutParams = new WindowManager.LayoutParams();
-//                windowLayoutParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
-//                if (Build.VERSION.SDK_INT >= 21) {
-//                    windowLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
-//                } else {
-//                    windowLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;
-//                    windowLayoutParams.token = getActivity().getWindow().getDecorView().getWindowToken();
-//                }
-//                windowLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-//            }
-//
-//            final int currentHeight;
-//
-//            if (keyboardHeight <= 0)
-//                keyboardHeight = App.getInstance().getSharedPreferences("emoji", 0).getInt("kbd_height", AndroidUtilities.dp(200));
-//
-//            currentHeight = keyboardHeight;
-//
-//            WindowManager wm = (WindowManager) App.getInstance().getSystemService(Activity.WINDOW_SERVICE);
-//
-//            windowLayoutParams.height = currentHeight;
-//            windowLayoutParams.width = AndroidUtilities.displaySize.x;
-//
-//            try {
-//                if (emojiView.getParent() != null) {
-//                    wm.removeViewImmediate(emojiView);
-//                }
-//            } catch (Exception e) {
-//                Log.e(Constants.TAG, e.getMessage());
-//            }
-//
-//            try {
-//                wm.addView(emojiView, windowLayoutParams);
-//            } catch (Exception e) {
-//                Log.e(Constants.TAG, e.getMessage());
-//                return;
-//            }
-//
-//            if (!keyboardVisible) {
-//                if (sizeNotifierRelativeLayout != null) {
-//                    sizeNotifierRelativeLayout.setPadding(0, 0, 0, currentHeight);
-//                }
-//
-//                return;
-//            }
-//
-//        }
-//        else {
-//            removeEmojiWindow();
-//            if (sizeNotifierRelativeLayout != null) {
-//                sizeNotifierRelativeLayout.post(new Runnable() {
-//                    public void run() {
-//                        if (sizeNotifierRelativeLayout != null) {
-//                            sizeNotifierRelativeLayout.setPadding(0, 0, 0, 0);
-//                        }
-//                    }
-//                });
-//            }
-//        }
-//
-//
-//    }
-
-
-    /**
-     * Remove emoji window
-     */
-//    private void removeEmojiWindow() {
-//        if (emojiView == null) {
-//            return;
-//        }
-//        try {
-//            if (emojiView.getParent() != null) {
-//                WindowManager wm = (WindowManager) App.getInstance().getSystemService(Context.WINDOW_SERVICE);
-//                wm.removeViewImmediate(emojiView);
-//            }
-//        } catch (Exception e) {
-//            Log.e(Constants.TAG, e.getMessage());
-//        }
-//    }
-
-
-
-    /**
-     * Hides the emoji popup
-     */
-//    public void hideEmojiPopup() {
-//        if (showingEmoji) {
-//            showEmojiPopup(false);
-//        }
-//    }
-//
-//    /**
-//     * Check if the emoji popup is showing
-//     *
-//     * @return
-//     */
-//    public boolean isEmojiPopupShowing() {
-//        return showingEmoji;
-//    }
-//
-//
-//
-//    /**
-//     * Updates emoji views when they are complete loading
-//     *
-//     * @param id
-//     * @param args
-//     */
     @Override
     public void didReceivedNotification(int id, Object... args) {
         if (id == NotificationCenter.emojiDidLoaded) {
@@ -402,8 +284,82 @@ public class CzatActivity extends ActionBarActivity implements SizeNotifierRelat
 //        } else if (!keyboardVisible && keyboardVisible != oldValue && showingEmoji) {
 //            showEmojiPopup(false);
 //        }
-
     }
+
+    private void buildRetrofit() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .addInterceptor(logging)
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(App.getSendURL())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+        webService = retrofit.create(WebService.class);
+    }
+
+
+    private EditText.OnKeyListener keyListener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+            // If the event is a key-down event on the "enter" button
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                    (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                // Perform action on key press
+
+                EditText editText = (EditText) v;
+
+                if (v == chatEditText1) {
+                    sendMessage(editText.getText().toString(), UserType.SELF);
+                }
+
+                chatEditText1.setText("");
+
+                return true;
+            }
+            return false;
+        }
+    };
+
+    private ImageView.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v == enterChatView1) {
+                sendMessage(chatEditText1.getText().toString(), UserType.SELF);
+            }
+            chatEditText1.setText("");
+        }
+    };
+
+    private final TextWatcher watcher1 = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            if (chatEditText1.getText().toString().equals("")) {
+
+            } else {
+                enterChatView1.setImageResource(R.drawable.ic_chat_send);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if (editable.length() == 0) {
+                enterChatView1.setImageResource(R.drawable.ic_chat_send);
+            } else {
+                enterChatView1.setImageResource(R.drawable.ic_chat_send_active);
+            }
+        }
+    };
+
 
     @Override
     public void onDestroy() {
@@ -412,23 +368,71 @@ public class CzatActivity extends ActionBarActivity implements SizeNotifierRelat
         NotificationCenter.getInstance().removeObserver(this, NotificationCenter.emojiDidLoaded);
     }
 
-    /**
-     * Get the system status bar height
-     * @return
-     */
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
+    }
 
-//        hideEmojiPopup();
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Czy opuścić czat?")
+                .setMessage("Czy napewno chcesz opuścić czat? Rozmowa nie zostanie zachowana!")
+                .setPositiveButton("TAK", new zzh() {
+                    @Override
+                    protected void zzavx() {
+                        Intent intent = getIntent();
+                        startActivity(intent);
+                    }
+                }).setNeutralButton("NIE", new zzh() {
+            @Override
+            protected void zzavx() {
+
+            }
+        });
+
+        builder.create();
     }
 }
+
+//        mStompClient = Stomp.over(WebSocket.class, "ws://138.68.77.240:8080/puszek/chat/websocket");
+//        mStompClient.connect();
+//        mStompClient.topic("/topic/messages").subscribe(new Action1<StompMessage>() {
+//            @Override
+//            public void call(StompMessage topicMessage) {
+//                Log.d("Stom Call", topicMessage.toString());
+//                final ChatMessage message = new ChatMessage();
+//
+//
+//                message.setMessageStatus(Status.SENT);
+//
+//                try {
+//                    MessageResponse response = objectMapper.readValue(topicMessage.getPayload(), MessageResponse.class);
+//                    message.setMessageText(response.getTextMessage());
+//
+//
+//                    Log.d("Czat Activity", "Try");
+//                    if (response.getAuthor().equals(App.getInstance().getUser().getLogin())) {
+//                        message.setUserType(UserType.SELF);
+//                    } else {
+//                        message.setUserType(UserType.OTHER);
+//                    }
+//                    message.setAuthor(response.getAuthor());
+//                    message.setMessageTime(response.getTime());
+//                    chatMessages.add(message);
+//
+//                    CzatActivity.this.runOnUiThread(new Runnable() {
+//                        public void run() {
+//                            listAdapter.notifyDataSetChanged();
+//                            scrollMyListViewToBottom();
+//                            Log.d("Czat Activity", "runOnUiThread");
+//                        }
+//                    });
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
